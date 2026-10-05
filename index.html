@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plataforma de Revisão CCAA</title>
+    <title>CCAA Pro - Dark Mode</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <!-- Firebase SDKs -->
@@ -13,126 +13,127 @@
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #334155; margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #e2e8f0; margin: 0; display: flex; height: 100vh; overflow: hidden; }
         
-        /* Design Limpo e Profissional */
-        .sidebar { width: 260px; background-color: #ffffff; border-right: 1px solid #e2e8f0; display: flex; flex-direction: column; }
-        .sidebar-item { padding: 1rem 1.5rem; display: flex; align-items: center; gap: 1rem; cursor: pointer; transition: all 0.2s; color: #64748b; font-weight: 500; border-right: 3px solid transparent; }
-        .sidebar-item:hover { background-color: #f1f5f9; color: #0f172a; }
-        .sidebar-item.active { background-color: #eff6ff; color: #2563eb; border-right-color: #2563eb; }
+        /* Tema Escuro Profissional */
+        .sidebar { width: 260px; background-color: #020617; border-right: 1px solid #1e293b; display: flex; flex-direction: column; }
+        .sidebar-item { padding: 1rem 1.5rem; display: flex; align-items: center; gap: 1rem; cursor: pointer; transition: all 0.2s; color: #94a3b8; font-weight: 500; border-right: 3px solid transparent; }
+        .sidebar-item:hover { background-color: #0f172a; color: #f8fafc; }
+        .sidebar-item.active { background-color: #1e293b; color: #3b82f6; border-right-color: #3b82f6; }
         
-        .main-content { flex: 1; overflow-y: auto; position: relative; }
-        .top-header { background: #ffffff; border-bottom: 1px solid #e2e8f0; position: sticky; top: 0; z-index: 10; padding: 1.5rem 3rem; display: flex; justify-content: space-between; align-items: center; }
+        .main-content { flex: 1; overflow-y: auto; position: relative; background-color: #0f172a; }
+        .top-header { background: #0f172a; border-bottom: 1px solid #1e293b; position: sticky; top: 0; z-index: 10; padding: 1.5rem 3rem; display: flex; justify-content: space-between; align-items: center; }
         .content-area { padding: 3rem; max-w-6xl; margin: 0 auto; }
         
-        .task-card { background: white; border: 1px solid #e2e8f0; border-radius: 12px; transition: transform 0.2s, box-shadow 0.2s; }
-        .task-card:hover { transform: translateY(-4px); box-shadow: 0 12px 20px -8px rgba(0,0,0,0.1); border-color: #cbd5e1; }
+        .task-card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; transition: transform 0.2s, box-shadow 0.2s; }
+        .task-card:hover { transform: translateY(-4px); box-shadow: 0 12px 20px -8px rgba(0,0,0,0.5); border-color: #3b82f6; }
         
-        .input-box { width: 100%; border: 2px solid #cbd5e1; border-radius: 8px; padding: 1rem; font-size: 1.1rem; color: #1e293b; transition: all 0.2s; }
-        .input-box:focus { border-color: #2563eb; outline: none; box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1); }
+        .input-box { width: 100%; border: 2px solid #334155; border-radius: 8px; padding: 1rem; font-size: 1.1rem; color: #f8fafc; background-color: #0f172a; transition: all 0.2s; }
+        .input-box:focus { border-color: #3b82f6; outline: none; box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2); }
         
         .btn-main { background-color: #2563eb; color: white; padding: 1rem 2rem; border-radius: 8px; font-weight: 700; transition: background 0.2s; cursor: pointer; border: none; }
         .btn-main:hover { background-color: #1d4ed8; }
 
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
     </style>
 </head>
 <body>
 
-    <!-- TELA DE LOGIN -->
-    <div id="login-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-100">
-        <div class="bg-white p-10 rounded-2xl shadow-xl w-full max-w-md border border-slate-200">
+    <!-- TELA DE LOGIN (DARK) -->
+    <div id="login-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900">
+        <div class="bg-slate-800 p-10 rounded-2xl shadow-2xl w-full max-w-md border border-slate-700">
             <div class="text-center mb-8">
-                <div class="w-20 h-20 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-4xl mx-auto mb-4">
+                <div class="w-20 h-20 bg-blue-900/50 text-blue-400 rounded-full flex items-center justify-center text-4xl mx-auto mb-4 border border-blue-800">
                     <i class="fas fa-university"></i>
                 </div>
-                <h1 class="text-2xl font-bold text-slate-800">Portal do Aluno</h1>
-                <p class="text-slate-500 mt-1">Intensivão de Avaliação</p>
+                <h1 class="text-2xl font-bold text-white">Portal do Aluno</h1>
+                <p class="text-slate-400 mt-1">Revisão Intensiva Noturna</p>
             </div>
             <div class="space-y-5">
                 <div>
-                    <label class="block text-sm font-semibold text-slate-600 mb-2">Identificação do Estudante:</label>
-                    <input type="text" id="student-name" class="w-full p-4 bg-slate-50 border-2 border-slate-200 rounded-lg focus:border-blue-500 outline-none text-slate-800" placeholder="Digite seu nome completo...">
+                    <label class="block text-sm font-semibold text-slate-400 mb-2">Identificação do Estudante:</label>
+                    <input type="text" id="student-name" class="w-full p-4 bg-slate-900 border-2 border-slate-700 rounded-lg focus:border-blue-500 outline-none text-white placeholder-slate-600" placeholder="Digite seu nome completo...">
                 </div>
-                <button onclick="login()" id="login-btn" class="w-full btn-main text-lg flex justify-center items-center gap-2">
+                <button onclick="login()" id="login-btn" class="w-full btn-main text-lg flex justify-center items-center gap-2 shadow-lg shadow-blue-900/20">
                     Acessar Plataforma <i class="fas fa-arrow-right"></i>
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- MENU LATERAL -->
+    <!-- MENU LATERAL (DARK) -->
     <aside class="sidebar hidden" id="sidebar">
-        <div class="p-6 border-b border-slate-200 mb-2">
-            <h1 class="text-xl font-black text-slate-800 tracking-tight uppercase">CCAA Pro</h1>
-            <p class="text-slate-500 text-sm mt-1 font-mono" id="student-id-display">Aluno Logado</p>
+        <div class="p-6 border-b border-slate-800 mb-2">
+            <h1 class="text-xl font-black text-white tracking-tight uppercase">CCAA Pro</h1>
+            <p class="text-slate-400 text-sm mt-1 font-mono" id="student-id-display">Aluno Logado</p>
         </div>
         
-        <div class="px-4 mt-4 mb-2 text-xs font-bold text-slate-400 uppercase tracking-wider">Acesso Acadêmico</div>
+        <div class="px-4 mt-4 mb-2 text-xs font-bold text-slate-500 uppercase tracking-wider">Módulos</div>
         <div class="sidebar-item active" onclick="switchTab('dashboard')" id="nav-dashboard">
-            <i class="fas fa-tasks w-6 text-center"></i> Lista de Exercícios
+            <i class="fas fa-tasks w-6 text-center"></i> Avaliações
         </div>
         <div class="sidebar-item" onclick="switchTab('theory')" id="nav-theory">
-            <i class="fas fa-book w-6 text-center"></i> Biblioteca Gramatical
+            <i class="fas fa-book w-6 text-center"></i> Biblioteca Teórica
         </div>
     </aside>
 
-    <!-- ÁREA PRINCIPAL -->
+    <!-- ÁREA PRINCIPAL (DARK) -->
     <main class="main-content hidden" id="main-interface">
         <header class="top-header">
             <div>
-                <h2 class="text-2xl font-bold text-slate-800" id="header-title">Lista de Exercícios</h2>
+                <h2 class="text-2xl font-bold text-white" id="header-title">Módulos de Avaliação</h2>
             </div>
-            <div class="flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-2 rounded-lg font-bold border border-blue-100">
+            <div class="flex items-center gap-2 bg-slate-800 text-blue-400 px-4 py-2 rounded-lg font-bold border border-slate-700">
                 <i class="fas fa-chart-line"></i> Score: <span id="score-display">0</span>
             </div>
         </header>
 
         <!-- ABA: DASHBOARD -->
         <div id="tab-dashboard" class="content-area">
-            <p class="text-slate-600 mb-6 text-lg">Complete todos os módulos abaixo. As questões exigem atenção redobrada aos tempos verbais e grafia.</p>
+            <p class="text-slate-400 mb-6 text-lg">Complete todos os módulos abaixo. Exige atenção redobrada aos tempos verbais e grafia correta.</p>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="modules-list">
                 <!-- Gerado via JavaScript -->
             </div>
         </div>
 
-        <!-- ABA: BIBLIOTECA (Teoria Profissional) -->
+        <!-- ABA: BIBLIOTECA -->
         <div id="tab-theory" class="content-area hidden">
             <div class="space-y-6">
-                <div class="bg-white p-8 rounded-xl border border-slate-200 shadow-sm border-l-4 border-l-blue-500">
-                    <h3 class="text-xl font-bold text-slate-800 mb-3">1. Dinâmica dos Tempos Verbais</h3>
-                    <p class="text-slate-600 mb-4">
-                        <b>Simple Present:</b> Ações habituais, verdades universais ou horários. (Palavras-chave: <i>always, usually, on Sundays</i>). Lembrar da regra do "S" para He/She/It.<br>
-                        <b>Present Continuous:</b> Ações em progresso no exato momento da fala. (Palavras-chave: <i>now, at the moment</i>). Estrutura: Sujeito + To Be + Verbo(ing).
+                <div class="bg-slate-800 p-8 rounded-xl border border-slate-700 shadow-lg border-l-4 border-l-blue-500">
+                    <h3 class="text-xl font-bold text-white mb-3">1. Dinâmica dos Tempos Verbais</h3>
+                    <p class="text-slate-300 mb-4">
+                        <b class="text-blue-400">Simple Present:</b> Ações habituais, verdades universais. (<i>always, usually, on Sundays</i>). Lembrar da regra do "S" para He/She/It.<br>
+                        <b class="text-blue-400">Present Continuous:</b> Ações em progresso no exato momento. (<i>now, at the moment</i>). Estrutura: Sujeito + To Be + Verbo(ing).
                     </p>
-                    <div class="bg-slate-50 p-4 rounded text-sm text-slate-700 border border-slate-100 font-mono">
-                        Ex: The mechanic <b>fixes</b> engines every day. (Rotina)<br>
-                        Ex: The mechanic <b>is fixing</b> the engine now. (Agora)
+                    <div class="bg-slate-900 p-4 rounded text-sm text-slate-300 border border-slate-700 font-mono">
+                        Ex: The mechanic <span class="text-blue-400">fixes</span> engines every day. (Rotina)<br>
+                        Ex: The mechanic <span class="text-blue-400">is fixing</span> the engine now. (Agora)
                     </div>
                 </div>
 
-                <div class="bg-white p-8 rounded-xl border border-slate-200 shadow-sm border-l-4 border-l-emerald-500">
-                    <h3 class="text-xl font-bold text-slate-800 mb-3">2. Pronomes Demonstrativos & Seleção</h3>
-                    <div class="grid grid-cols-2 gap-4 text-slate-600 mb-4">
-                        <div class="bg-slate-50 p-3 rounded border"><b>This:</b> Perto / Singular</div>
-                        <div class="bg-slate-50 p-3 rounded border"><b>These:</b> Perto / Plural</div>
-                        <div class="bg-slate-50 p-3 rounded border"><b>That:</b> Longe / Singular</div>
-                        <div class="bg-slate-50 p-3 rounded border"><b>Those:</b> Longe / Plural</div>
+                <div class="bg-slate-800 p-8 rounded-xl border border-slate-700 shadow-lg border-l-4 border-l-emerald-500">
+                    <h3 class="text-xl font-bold text-white mb-3">2. Pronomes & Seleção (What/Which)</h3>
+                    <div class="grid grid-cols-2 gap-4 text-slate-300 mb-4">
+                        <div class="bg-slate-900 p-3 rounded border border-slate-700"><b>This:</b> Perto / Singular</div>
+                        <div class="bg-slate-900 p-3 rounded border border-slate-700"><b>These:</b> Perto / Plural</div>
+                        <div class="bg-slate-900 p-3 rounded border border-slate-700"><b>That:</b> Longe / Singular</div>
+                        <div class="bg-slate-900 p-3 rounded border border-slate-700"><b>Those:</b> Longe / Plural</div>
                     </div>
-                    <p class="text-slate-600">
-                        <b>What vs Which:</b> Utilize <i>What</i> para escolhas em um conjunto infinito (Ex: What is your name?). Utilize <i>Which</i> quando as opções estão limitadas no contexto (Ex: Which of those girls is Amy?).
+                    <p class="text-slate-300">
+                        Use <b>What</b> para escolhas infinitas. Use <b>Which</b> quando as opções estão limitadas no contexto.
                     </p>
                 </div>
 
-                <div class="bg-white p-8 rounded-xl border border-slate-200 shadow-sm border-l-4 border-l-purple-500">
-                    <h3 class="text-xl font-bold text-slate-800 mb-3">3. Partículas de Concordância</h3>
-                    <ul class="list-disc pl-5 text-slate-600 space-y-2">
-                        <li><b>Too:</b> Posicionado no final de frases afirmativas. (I like potato <i>too</i>).</li>
-                        <li><b>Also:</b> Posicionado antes do verbo principal em frases afirmativas. (I <i>also</i> like potato).</li>
-                        <li><b>Either:</b> Usado exclusivamente no final de frases NEGATIVAS. (I don't eat meat <i>either</i>).</li>
+                <div class="bg-slate-800 p-8 rounded-xl border border-slate-700 shadow-lg border-l-4 border-l-purple-500">
+                    <h3 class="text-xl font-bold text-white mb-3">3. Partículas: Also, Too, Either</h3>
+                    <ul class="list-disc pl-5 text-slate-300 space-y-2">
+                        <li><b>Too:</b> Final de frases afirmativas.</li>
+                        <li><b>Also:</b> Antes do verbo principal em frases afirmativas.</li>
+                        <li><b>Either:</b> Exclusivo no final de frases NEGATIVAS. (também não).</li>
                     </ul>
                 </div>
             </div>
@@ -140,20 +141,20 @@
 
         <!-- ABA: EXERCÍCIO ATIVO -->
         <div id="tab-execution" class="content-area hidden">
-            <button onclick="switchTab('dashboard')" class="text-slate-500 hover:text-slate-800 font-semibold mb-6 flex items-center gap-2"><i class="fas fa-arrow-left"></i> Suspender Avaliação</button>
+            <button onclick="switchTab('dashboard')" class="text-slate-400 hover:text-white font-semibold mb-6 flex items-center gap-2 transition-colors"><i class="fas fa-arrow-left"></i> Suspender Avaliação</button>
             
-            <div class="bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden">
-                <div class="bg-slate-50 border-b border-slate-200 p-6 flex justify-between items-center">
-                    <h2 class="text-xl font-bold text-slate-700" id="exec-module-name">Nome do Módulo</h2>
-                    <div class="w-1/3 bg-slate-200 rounded-full h-2">
-                        <div class="bg-blue-600 h-2 rounded-full transition-all duration-500" id="exec-progress-bar" style="width: 0%"></div>
+            <div class="bg-slate-800 border border-slate-700 rounded-xl shadow-2xl overflow-hidden">
+                <div class="bg-slate-900 border-b border-slate-700 p-6 flex justify-between items-center">
+                    <h2 class="text-xl font-bold text-slate-300" id="exec-module-name">Nome do Módulo</h2>
+                    <div class="w-1/3 bg-slate-700 rounded-full h-2">
+                        <div class="bg-blue-500 h-2 rounded-full transition-all duration-500" id="exec-progress-bar" style="width: 0%"></div>
                     </div>
                 </div>
 
                 <div class="p-8 md:p-12">
                     <div class="mb-8">
-                        <span id="exec-type-badge" class="inline-block px-3 py-1 bg-slate-200 text-slate-700 text-xs font-bold uppercase tracking-wider rounded mb-4">Tradução e Preenchimento</span>
-                        <h3 class="text-2xl font-medium text-slate-800 leading-relaxed whitespace-pre-line" id="exec-question-text">Pergunta vai aqui?</h3>
+                        <span id="exec-type-badge" class="inline-block px-3 py-1 bg-slate-700 text-blue-400 border border-slate-600 text-xs font-bold uppercase tracking-wider rounded mb-4">Tradução e Preenchimento</span>
+                        <h3 class="text-2xl font-medium text-white leading-relaxed whitespace-pre-line" id="exec-question-text">Pergunta vai aqui?</h3>
                     </div>
 
                     <div id="exec-input-area" class="space-y-3">
@@ -161,65 +162,65 @@
                     </div>
 
                     <div id="exec-action-area" class="mt-8 hidden">
-                        <button onclick="submitAnswer()" class="btn-main w-full py-4 text-lg">Confirmar Resposta Escrita</button>
+                        <button onclick="submitAnswer()" class="btn-main w-full py-4 text-lg shadow-lg shadow-blue-900/50">Confirmar Resposta Escrita</button>
                     </div>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- MODAL DE CORREÇÃO -->
-    <div id="correction-modal" class="fixed inset-0 z-50 bg-slate-900/70 hidden flex items-center justify-center p-4 backdrop-blur-sm">
-        <div class="bg-white w-full max-w-2xl rounded-xl shadow-2xl overflow-hidden flex flex-col">
+    <!-- MODAL DE CORREÇÃO (DARK) -->
+    <div id="correction-modal" class="fixed inset-0 z-50 bg-slate-950/80 hidden flex items-center justify-center p-4 backdrop-blur-md">
+        <div class="bg-slate-800 w-full max-w-2xl rounded-xl shadow-2xl overflow-hidden flex flex-col border border-slate-700">
             <div id="correction-header" class="p-6 flex items-center gap-4 text-white">
                 <i id="correction-icon" class="fas fa-check-circle text-4xl"></i>
-                <h2 class="text-2xl font-bold" id="correction-title">Avaliação do Sistema</h2>
+                <h2 class="text-2xl font-bold" id="correction-title">Avaliação do Professor</h2>
             </div>
-            <div class="p-8 bg-slate-50">
-                <p class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-2">Comentário do Professor:</p>
-                <p id="correction-explanation" class="text-lg text-slate-700 leading-relaxed font-medium mb-6"></p>
+            <div class="p-8 bg-slate-900">
+                <p class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2">Comentário Didático:</p>
+                <p id="correction-explanation" class="text-lg text-slate-200 leading-relaxed font-medium mb-6"></p>
 
-                <div id="correction-expected-box" class="bg-white border-2 border-rose-500 p-5 rounded-lg hidden shadow-inner">
-                    <p class="text-xs font-black text-rose-600 uppercase tracking-widest mb-1">Resposta Padrão Esperada:</p>
-                    <p id="correction-expected-text" class="text-xl font-mono text-slate-900 font-bold"></p>
+                <div id="correction-expected-box" class="bg-slate-800 border-2 border-rose-500 p-5 rounded-lg hidden shadow-inner">
+                    <p class="text-xs font-black text-rose-400 uppercase tracking-widest mb-1">Resposta Padrão Esperada:</p>
+                    <p id="correction-expected-text" class="text-xl font-mono text-white font-bold"></p>
                 </div>
             </div>
-            <div class="p-6 bg-white border-t border-slate-200">
-                <button onclick="proceedToNext()" class="w-full bg-slate-900 hover:bg-slate-800 text-white p-4 rounded-lg text-lg font-bold">Avançar para a Próxima <i class="fas fa-arrow-right ml-2"></i></button>
+            <div class="p-6 bg-slate-800 border-t border-slate-700">
+                <button onclick="proceedToNext()" class="w-full bg-blue-600 hover:bg-blue-500 text-white p-4 rounded-lg text-lg font-bold transition-colors shadow-lg">Avançar <i class="fas fa-arrow-right ml-2"></i></button>
             </div>
         </div>
     </div>
 
-    <!-- CHATBOT PROFESSOR JOSÉ (IA ABERTA POLLINATIONS - 100% GRATUITA) -->
-    <button onclick="toggleChat()" class="fixed bottom-8 right-8 bg-slate-800 text-white w-16 h-16 rounded-full shadow-2xl z-40 flex items-center justify-center hover:bg-slate-700 transition-all hover:scale-105 border-2 border-white">
+    <!-- CHATBOT PROFESSOR JOSÉ (API + FALLBACK OFFLINE) -->
+    <button onclick="toggleChat()" class="fixed bottom-8 right-8 bg-blue-600 text-white w-16 h-16 rounded-full shadow-lg shadow-blue-900/50 z-40 flex items-center justify-center hover:bg-blue-500 transition-all hover:scale-105 border-2 border-slate-800">
         <i class="fas fa-chalkboard-teacher text-2xl"></i>
     </button>
     
-    <div id="chat-window" class="hidden fixed bottom-28 right-8 w-80 sm:w-[400px] bg-white rounded-xl shadow-2xl border border-slate-300 flex flex-col overflow-hidden z-40" style="height: 550px;">
-        <div class="bg-slate-800 text-white p-4 flex justify-between items-center shadow-md z-10">
+    <div id="chat-window" class="hidden fixed bottom-28 right-8 w-80 sm:w-[400px] bg-slate-800 rounded-xl shadow-2xl border border-slate-700 flex flex-col overflow-hidden z-40" style="height: 550px;">
+        <div class="bg-slate-900 text-white p-4 flex justify-between items-center shadow-md z-10 border-b border-slate-700">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-slate-700 rounded-full flex items-center justify-center text-lg"><i class="fas fa-robot"></i></div>
+                <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-lg shadow-inner"><i class="fas fa-robot text-white"></i></div>
                 <div>
                     <div class="font-bold text-lg leading-tight">Prof. José</div>
-                    <div class="text-[11px] text-slate-400 font-mono tracking-widest uppercase">Assistência Inteligente</div>
+                    <div class="text-[11px] text-emerald-400 font-mono tracking-widest uppercase flex items-center gap-1"><div class="w-2 h-2 bg-emerald-400 rounded-full"></div> Online</div>
                 </div>
             </div>
-            <button onclick="toggleChat()" class="text-slate-400 hover:text-white text-xl"><i class="fas fa-times"></i></button>
+            <button onclick="toggleChat()" class="text-slate-400 hover:text-white text-xl transition-colors"><i class="fas fa-times"></i></button>
         </div>
-        <div id="chat-messages" class="flex-1 p-5 overflow-y-auto bg-slate-50 flex flex-col gap-4 text-[15px]">
-            <div class="bg-white border border-slate-200 text-slate-700 p-4 rounded-lg rounded-tl-none w-11/12 shadow-sm">
-                <b>Welcome!</b> Sou o Professor José. Nossa API foi atualizada para um modelo livre de chaves. Você pode me perguntar livremente sobre qualquer regra gramatical ou vocabulário para a prova. Como posso ajudar?
+        <div id="chat-messages" class="flex-1 p-5 overflow-y-auto bg-slate-900 flex flex-col gap-4 text-[15px]">
+            <div class="bg-slate-800 border border-slate-700 text-slate-200 p-4 rounded-lg rounded-tl-none w-11/12 shadow-sm">
+                <b>Welcome!</b> Sou o Professor José. Nossa plataforma foi atualizada com contingência offline. Você pode me perguntar sobre qualquer regra gramatical para a prova e eu sempre vou responder.
             </div>
         </div>
-        <div class="p-4 bg-white border-t border-slate-200 flex gap-2">
-            <textarea id="chat-input" rows="2" placeholder="Descreva sua dúvida aqui..." class="flex-1 p-3 bg-slate-100 border border-slate-200 rounded-lg outline-none focus:border-blue-500 focus:bg-white resize-none text-sm transition-colors"></textarea>
-            <button onclick="sendMessageViaAPI()" class="bg-blue-600 hover:bg-blue-700 text-white px-5 rounded-lg font-bold transition-colors"><i class="fas fa-paper-plane"></i></button>
+        <div class="p-4 bg-slate-800 border-t border-slate-700 flex gap-2">
+            <textarea id="chat-input" rows="2" placeholder="Descreva sua dúvida aqui..." class="flex-1 p-3 bg-slate-900 border border-slate-700 text-white rounded-lg outline-none focus:border-blue-500 resize-none text-sm transition-colors"></textarea>
+            <button onclick="sendChatMessage()" class="bg-blue-600 hover:bg-blue-500 text-white px-5 rounded-lg font-bold transition-colors"><i class="fas fa-paper-plane"></i></button>
         </div>
     </div>
 
     <script>
         // ==========================================
-        // CONFIGURAÇÃO DO FIREBASE (Suas chaves mantidas)
+        // CONFIGURAÇÃO DO FIREBASE
         // ==========================================
         const firebaseConfig = {
             apiKey: "AIzaSyDD6GZ7quR-G0zBJMlpZncnmXeECs7SQRI",
@@ -238,56 +239,55 @@
         let userData = { name: '', progress: {}, score: 0 };
 
         // ==========================================
-        // BANCO DE QUESTÕES DE ALTO NÍVEL
+        // BANCO DE QUESTÕES
         // ==========================================
         const assessments = [
             {
-                id: 'm1_grammar', title: '1. Verbos no Contexto (Rotina vs Agora)', desc: 'Present Continuous & Simple Present', icon: 'fa-layer-group',
+                id: 'm1_grammar', title: '1. Verbos no Contexto', desc: 'Present Continuous & Simple Present', icon: 'fa-layer-group',
                 questions: [
-                    { type: 'choice', q: "The doctor ______ at the hospital right now, but he usually ______ at the clinic.", options: ["works / is working", "is working / works", "work / working", "working / works"], correct: 1, feedback: "A expressão 'right now' exige o Present Continuous (is working). A expressão 'usually' indica rotina, exigindo o Simple Present (works)." },
-                    { type: 'write', q: "Preencha com o Simple Present:\n\nMy sister never ______ (to eat) salad with corn.", correct: ["eats"], feedback: "Com 'never' estamos falando de um fato/rotina. Para 'She' (My sister), o verbo ganha 's'." },
-                    { type: 'write', q: "Crie a pergunta correta:\n\n______ they wash their car every week?", correct: ["do"], feedback: "Para perguntas de rotina (every week) com o pronome 'they', usamos o auxiliar 'Do'." },
+                    { type: 'choice', q: "The doctor ______ at the hospital right now, but he usually ______ at the clinic.", options: ["works / is working", "is working / works", "work / working"], correct: 1, feedback: "A expressão 'right now' exige o Present Continuous (is working). A expressão 'usually' indica rotina, exigindo o Simple Present (works)." },
+                    { type: 'write', q: "Preencha com o Simple Present:\n\nMy sister never ______ (to eat) salad with corn.", correct: ["eats"], feedback: "Com 'never' estamos falando de um fato/rotina. Para 'She', o verbo ganha 's'." },
+                    { type: 'write', q: "Crie a pergunta correta:\n\n______ they wash their car every week?", correct: ["do"], feedback: "Para perguntas de rotina (every week) com 'they', usamos o auxiliar 'Do'." },
                     { type: 'write', q: "Traduza para o inglês a frase no imperativo negativo:\n\nNão durma na poltrona.", correct: ["don't sleep in the armchair", "do not sleep in the armchair"], feedback: "Poltrona = armchair. O imperativo negativo sempre começa com 'Don't'." }
                 ]
             },
             {
                 id: 'm2_grammar', title: '2. Pronomes e Concordância', desc: 'Also/Too/Either & What/Which', icon: 'fa-check-double',
                 questions: [
-                    { type: 'choice', q: "We are at a restaurant. ______ of these dishes is Thai food?", options: ["What", "Which", "Why", "Who"], correct: 1, feedback: "Como estamos olhando para um cardápio com opções limitadas ('these dishes'), usamos 'Which'." },
+                    { type: 'choice', q: "We are at a restaurant. ______ of these dishes is Thai food?", options: ["What", "Which", "Why"], correct: 1, feedback: "Como estamos olhando para opções limitadas ('these dishes'), usamos 'Which'." },
                     { type: 'write', q: "Complete a frase para concordar negativamente:\n\nI don't play sports, and I don't run ______.", correct: ["either"], feedback: "Em frases negativas, a palavra para 'também não' é 'either' no final da frase." },
-                    { type: 'write', q: "Qual o pronome demonstrativo correto para o plural e distante?\n\nLook at ______ cyclists across the avenue!", correct: ["those"], feedback: "Ciclistas (plural) que estão longe (across the avenue) exigem o pronome 'Those'." },
-                    { type: 'write', q: "Reescreva a frase adicionando a palavra 'Also':\n\nShe plays in a team.", correct: ["she also plays in a team"], feedback: "A palavra 'also' deve ser colocada antes do verbo principal (plays)." }
+                    { type: 'write', q: "Qual o pronome demonstrativo correto para o plural e distante?\n\nLook at ______ cyclists across the avenue!", correct: ["those"], feedback: "Ciclistas (plural) que estão longe exigem o pronome 'Those'." },
+                    { type: 'write', q: "Reescreva a frase adicionando a palavra 'Also':\n\nShe plays in a team.", correct: ["she also plays in a team"], feedback: "A palavra 'also' deve ser colocada antes do verbo principal." }
                 ]
             },
             {
-                id: 'm3_vocab', title: '3. Vocabulário: Cidades e Movimento', desc: 'Lugares, Transporte e Esportes', icon: 'fa-city',
+                id: 'm3_vocab', title: '3. Cidades e Movimento', desc: 'Lugares, Transporte e Esportes', icon: 'fa-city',
                 questions: [
                     { type: 'write', q: "Como se escreve 'Semáforo' em inglês?", correct: ["traffic light", "light"], feedback: "Semáforo é 'traffic light'." },
-                    { type: 'choice', q: "We need to go to the conference. Let's call a ______.", options: ["lawnmower", "taxi", "stadium", "block"], correct: 1, feedback: "Você liga para um 'taxi' ou 'cab' para se locomover até a conferência." },
+                    { type: 'choice', q: "We need to go to the conference. Let's call a ______.", options: ["lawnmower", "taxi", "stadium"], correct: 1, feedback: "Você liga para um 'taxi' ou 'cab' para ir à conferência." },
                     { type: 'write', q: "Escreva a preposição para 'do outro lado':\n\nThe skate park is ______ the street from the high school.", correct: ["across"], feedback: "A expressão exata é 'across the street from'." },
                     { type: 'write', q: "A person who rides a bike in a triathlon is a:", correct: ["cyclist"], feedback: "Quem anda de bicicleta é um 'cyclist'." }
                 ]
             },
             {
-                id: 'm4_vocab', title: '4. Vocabulário: Profissões e Ações', desc: 'Mechanics, Front Desk, Verbs', icon: 'fa-briefcase',
+                id: 'm4_vocab', title: '4. Profissões e Ações', desc: 'Mechanics, Front Desk, Verbs', icon: 'fa-briefcase',
                 questions: [
-                    { type: 'choice', q: "Who is the person you talk to at the front desk of a hotel?", options: ["Mechanic", "Doctor", "Clerk", "Driver"], correct: 2, feedback: "O recepcionista do hotel é chamado de 'clerk' ou 'receptionist'." },
+                    { type: 'choice', q: "Who is the person you talk to at the front desk of a hotel?", options: ["Mechanic", "Doctor", "Clerk"], correct: 2, feedback: "O recepcionista do hotel é chamado de 'clerk' ou 'receptionist'." },
                     { type: 'write', q: "Traduza: 'O mecânico conserta o motor'.\n\nThe mechanic ______ the ______.", correct: ["fixes engine", "fixes the engine"], feedback: "Consertar é 'fix' (fixes para He), e motor é 'engine'." },
-                    { type: 'write', q: "Você quer fazer um bolo, mas não tem açúcar. Como dizer o verbo 'pegar emprestado' com a vizinha?", correct: ["to borrow", "borrow"], feedback: "O verbo para pegar emprestado é 'borrow'." },
-                    { type: 'write', q: "Qual é a tradução exata de 'Peru assado' (comida de Thanksgiving)?", correct: ["roast turkey", "roasted turkey"], feedback: "É traduzido como 'roast turkey'." }
+                    { type: 'write', q: "Como dizer o verbo 'pegar emprestado'?", correct: ["to borrow", "borrow"], feedback: "O verbo para pegar emprestado é 'borrow'." },
+                    { type: 'write', q: "Qual é a tradução exata de 'Peru assado'?", correct: ["roast turkey", "roasted turkey"], feedback: "É traduzido como 'roast turkey'." }
                 ]
             },
             {
-                id: 'm5_simulado', title: '5. Simulado Geral (Final Exam)', desc: 'Revisão intensiva cobrindo os 30 tópicos', icon: 'fa-graduation-cap',
+                id: 'm5_simulado', title: '5. Simulado Geral', desc: 'Revisão intensiva', icon: 'fa-graduation-cap',
                 questions: [
-                    { type: 'write', q: "Complete com a habilidade (Poder/Conseguir):\n\nI ______ swim very well in the swimming pool.", correct: ["can"], feedback: "O verbo modal 'Can' indica habilidade." },
+                    { type: 'write', q: "Complete com a habilidade (Poder/Conseguir):\n\nI ______ swim very well.", correct: ["can"], feedback: "O verbo modal 'Can' indica habilidade." },
                     { type: 'write', q: "Como se escreve o número 200 em inglês?", correct: ["two hundred"], feedback: "Números exatos de centenas não levam 's', portanto é 'two hundred'." },
-                    { type: 'choice', q: "She usually ______ her makeup in the morning.", options: ["do", "does", "is doing", "doing"], correct: 1, feedback: "'Usually' indica rotina. Ação de fazer maquiagem para 'She' leva 'does' (do makeup)." },
+                    { type: 'choice', q: "She usually ______ her makeup in the morning.", options: ["do", "does", "is doing"], correct: 1, feedback: "'Usually' indica rotina. Ação para 'She' leva 'does'." },
                     { type: 'write', q: "Como se diz o número ordinal 'primeiro' em inglês?", correct: ["first", "1st"], feedback: "Primeiro é 'first'." },
-                    { type: 'write', q: "Complete a frase usando a palavra correta para 'também':\n\nI have an orange. My sister has an orange ______.", correct: ["too"], feedback: "No final de frase afirmativa, usamos obrigatoriamente o 'too'." },
-                    { type: 'write', q: "Traduza para o inglês: 'A porta é pesada'", correct: ["the door is heavy"], feedback: "Pesado é 'heavy' e porta é 'door'." },
-                    { type: 'choice', q: "Qual alternativa usa corretamente 'There is/are'?\nContexto: Apontar uma lareira (fireplace) na sala.", options: ["There are a fireplace", "There is a fireplace", "Have a fireplace"], correct: 1, feedback: "Como a lareira está no singular, usamos 'There is' para indicar sua existência." },
-                    { type: 'write', q: "Traduza a frase inteira: 'Eu preciso cortar a grama hoje.'", correct: ["i need to mow the lawn today"], feedback: "Ação de cortar a grama = to mow the lawn." }
+                    { type: 'write', q: "Complete:\nI have an orange. My sister has an orange ______.", correct: ["too"], feedback: "No final de frase afirmativa, usamos obrigatoriamente o 'too'." },
+                    { type: 'choice', q: "Qual alternativa usa corretamente 'There is/are'? (Uma lareira na sala).", options: ["There are a fireplace", "There is a fireplace", "Have a fireplace"], correct: 1, feedback: "Singular = 'There is'." },
+                    { type: 'write', q: "Traduza a frase inteira: 'Eu preciso cortar a grama.'", correct: ["i need to mow the lawn"], feedback: "Ação de cortar a grama = to mow the lawn." }
                 ]
             }
         ];
@@ -297,7 +297,7 @@
         let isAnswering = false;
 
         // ==========================================
-        // LÓGICA DA PLATAFORMA (LMS)
+        // NAVEGAÇÃO E REGRAS DE TELA
         // ==========================================
         async function login() {
             const nameEl = document.getElementById('student-name');
@@ -310,7 +310,7 @@
                 const credential = await auth.signInAnonymously();
                 currentUser = credential.user;
                 
-                const docRef = db.collection('alunos_pro_ccaa').doc(currentUser.uid);
+                const docRef = db.collection('alunos_pro_dark').doc(currentUser.uid);
                 const doc = await docRef.get();
                 
                 if (doc.exists) {
@@ -327,7 +327,7 @@
                 
                 switchTab('dashboard');
             } catch (error) {
-                alert("Erro de conexão com o banco de dados. Verifique a internet e as regras do Firebase.");
+                alert("Erro de conexão. Verifique a internet e o Firebase.");
                 document.getElementById('login-btn').innerHTML = 'Acessar Plataforma <i class="fas fa-arrow-right"></i>';
             }
         }
@@ -341,11 +341,7 @@
             document.getElementById(`tab-${tabId}`).classList.remove('hidden');
             if(tabId !== 'execution') document.getElementById(`nav-${tabId}`).classList.add('active');
 
-            const titles = {
-                'dashboard': 'Módulos de Avaliação',
-                'theory': 'Biblioteca Teórica',
-                'execution': 'Avaliação em Progresso'
-            };
+            const titles = { 'dashboard': 'Módulos de Avaliação', 'theory': 'Biblioteca Teórica', 'execution': 'Avaliação em Progresso' };
             document.getElementById('header-title').innerText = titles[tabId];
             document.getElementById('score-display').innerText = userData.score;
         }
@@ -359,13 +355,13 @@
                 container.innerHTML += `
                     <div class="task-card p-6 cursor-pointer" onclick="initAssessment('${mod.id}')">
                         <div class="flex items-center justify-between mb-4">
-                            <div class="w-12 h-12 rounded bg-slate-100 text-slate-700 flex items-center justify-center text-xl">
+                            <div class="w-12 h-12 rounded bg-slate-900 text-blue-400 border border-slate-700 flex items-center justify-center text-xl">
                                 <i class="fas ${mod.icon}"></i>
                             </div>
-                            ${isDone ? '<span class="bg-emerald-100 text-emerald-700 text-xs font-bold px-3 py-1 rounded-full uppercase">Concluído</span>' : '<span class="bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1 rounded-full uppercase">Pendente</span>'}
+                            ${isDone ? '<span class="bg-emerald-900/50 border border-emerald-700 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full uppercase">Concluído</span>' : '<span class="bg-blue-900/50 border border-blue-700 text-blue-400 text-xs font-bold px-3 py-1 rounded-full uppercase">Pendente</span>'}
                         </div>
-                        <h4 class="text-lg font-bold text-slate-800">${mod.title}</h4>
-                        <p class="text-sm text-slate-500 mt-1">${mod.desc}</p>
+                        <h4 class="text-lg font-bold text-white">${mod.title}</h4>
+                        <p class="text-sm text-slate-400 mt-1">${mod.desc}</p>
                     </div>
                 `;
             });
@@ -398,28 +394,24 @@
                 actionArea.classList.add('hidden');
                 q.options.forEach((opt, idx) => {
                     inputArea.innerHTML += `
-                        <button onclick="processChoice(${idx}, this)" class="w-full text-left p-5 border-2 border-slate-200 rounded-lg text-lg text-slate-700 hover:border-blue-400 hover:bg-slate-50 transition bg-white focus:outline-none">
-                            <span class="inline-block w-8 font-bold text-slate-400">${String.fromCharCode(65 + idx)}.</span> ${opt}
+                        <button onclick="processChoice(${idx}, this)" class="w-full text-left p-5 border border-slate-600 rounded-lg text-lg text-slate-300 bg-slate-900 hover:border-blue-500 hover:bg-slate-800 transition focus:outline-none">
+                            <span class="inline-block w-8 font-bold text-slate-500">${String.fromCharCode(65 + idx)}.</span> ${opt}
                         </button>
                     `;
                 });
             } else {
-                badge.innerText = "Tradução e Preenchimento (Escrita)";
+                badge.innerText = "Tradução e Preenchimento";
                 actionArea.classList.remove('hidden');
                 inputArea.innerHTML = `<textarea id="exec-text-input" rows="2" placeholder="Digite sua resposta estruturada aqui..." class="input-box"></textarea>`;
                 
-                // Suporte para Enter na caixa de texto
                 document.getElementById('exec-text-input').addEventListener('keypress', function (e) {
                     if (e.key === 'Enter') { e.preventDefault(); submitAnswer(); }
                 });
-                
                 setTimeout(() => document.getElementById('exec-text-input').focus(), 100);
             }
         }
 
-        function cleanTxt(txt) {
-            return txt.toLowerCase().replace(/[.,!?]/g, '').replace(/\s+/g, ' ').trim();
-        }
+        function cleanTxt(txt) { return txt.toLowerCase().replace(/[.,!?]/g, '').replace(/\s+/g, ' ').trim(); }
 
         function submitAnswer() {
             if(isAnswering) return;
@@ -438,11 +430,10 @@
             const q = activeModule.questions[qIndex];
             const isCorrect = (idx === q.correct);
             
-            btn.classList.remove('border-slate-200', 'text-slate-700');
             if(isCorrect) {
-                btn.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-800', 'font-bold');
+                btn.classList.add('border-emerald-500', 'bg-emerald-900/30', 'text-emerald-400', 'font-bold');
             } else {
-                btn.classList.add('border-rose-500', 'bg-rose-50', 'text-rose-800');
+                btn.classList.add('border-rose-500', 'bg-rose-900/30', 'text-rose-400');
             }
             triggerFeedback(isCorrect, q.feedback, q.options[q.correct]);
         }
@@ -459,81 +450,89 @@
 
             if(isCorrect) {
                 userData.score += 15;
-                header.className = "p-6 flex items-center gap-4 text-white bg-emerald-600";
+                header.className = "p-6 flex items-center gap-4 text-white bg-emerald-600 border-b border-emerald-700";
                 icon.className = "fas fa-check-circle text-4xl";
-                title.innerText = "Resposta Correta";
+                title.innerText = "Correto";
                 expectedBox.classList.add('hidden');
             } else {
-                header.className = "p-6 flex items-center gap-4 text-white bg-rose-600";
+                header.className = "p-6 flex items-center gap-4 text-white bg-rose-600 border-b border-rose-700";
                 icon.className = "fas fa-times-circle text-4xl";
-                title.innerText = "Atenção ao Erro";
+                title.innerText = "Incorreto";
                 expectedBox.classList.remove('hidden');
                 document.getElementById('correction-expected-text').innerText = expectedTxt;
             }
 
-            await db.collection('alunos_pro_ccaa').doc(currentUser.uid).update({ score: userData.score });
+            await db.collection('alunos_pro_dark').doc(currentUser.uid).update({ score: userData.score });
             modal.classList.remove('hidden');
         }
 
-        function proceedToNext() {
-            document.getElementById('correction-modal').classList.add('hidden');
-            qIndex++;
-            renderQuestion();
-        }
-
-        async function finishAssessment() {
-            userData.progress[activeModule.id] = true;
-            await db.collection('alunos_pro_ccaa').doc(currentUser.uid).update({ progress: userData.progress });
-            switchTab('dashboard');
-        }
+        function proceedToNext() { document.getElementById('correction-modal').classList.add('hidden'); qIndex++; renderQuestion(); }
+        async function finishAssessment() { userData.progress[activeModule.id] = true; await db.collection('alunos_pro_dark').doc(currentUser.uid).update({ progress: userData.progress }); switchTab('dashboard'); }
 
         // ==========================================
-        // CÉREBRO DA IA ABERTA (POLLINATIONS API - ZERO SETUP/KEYS)
+        // CÉREBRO HÍBRIDO (API ROBUSTA + CONTINGÊNCIA OFFLINE)
         // ==========================================
-        function toggleChat() {
-            document.getElementById('chat-window').classList.toggle('hidden');
+        function toggleChat() { document.getElementById('chat-window').classList.toggle('hidden'); }
+
+        // O cérebro local que assume caso a internet do aluno caia ou a API falhe (Zero Erros)
+        function generateOfflineResponse(msg) {
+            const m = msg.toLowerCase();
+            if(m.includes("oi") || m.includes("olá") || m.includes("ola")) return "Olá! Sou o Professor José. Pode me perguntar qualquer dúvida sobre a matéria da sua prova.";
+            if(m.includes("continuous") || m.includes("ing") || m.includes("agora")) return "O Present Continuous é usado para algo acontecendo neste exato momento. Usa-se o verbo To Be + verbo com ING. Exemplo: 'I am studying now'.";
+            if(m.includes("simple present") || m.includes("rotina")) return "O Simple Present é usado para rotinas e fatos. A regra de ouro: 'He, She, It' ganham o 's' no final do verbo nas frases afirmativas.";
+            if(m.includes("which") || m.includes("what")) return "A regra é simples: use WHAT para opções infinitas (What is your name?). Use WHICH quando houver opções limitadas para você escolher.";
+            if(m.includes("too") || m.includes("also") || m.includes("either") || m.includes("tambem") || m.includes("também")) return "Para dizer também: 'Too' (no final afirmativo), 'Also' (no meio afirmativo) e 'Either' (no final NEGATIVO).";
+            if(m.includes("this") || m.includes("that") || m.includes("these") || m.includes("those") || m.includes("demonstrativo")) return "Para perto: This (Singular), These (Plural). Para longe: That (Singular), Those (Plural).";
+            if(m.includes("ajuda") || m.includes("prova")) return "Claro! Posso te explicar regras como Present Continuous, Simple Present, pronomes demonstrativos e vocabulário de cidades e profissões. O que você quer revisar agora?";
+            return "Boa pergunta! Para focar na sua prova, lembre-se sempre de revisar os tempos verbais (Simple Present e Present Continuous) e onde posicionar 'Also', 'Too' e 'Either'. Tem dúvida em algum desses tópicos?";
         }
 
-        async function sendMessageViaAPI() {
+        async function sendChatMessage() {
             const input = document.getElementById('chat-input');
             const msg = input.value.trim();
             if(!msg) return;
             
             const chatBox = document.getElementById('chat-messages');
-            chatBox.innerHTML += `<div class="bg-blue-100 text-blue-900 p-3 rounded-lg rounded-tr-none self-end w-10/12 text-sm">${msg}</div>`;
+            chatBox.innerHTML += `<div class="bg-blue-600 text-white p-3 rounded-lg rounded-tr-none self-end w-10/12 text-sm shadow-md">${msg}</div>`;
             input.value = '';
             chatBox.scrollTop = chatBox.scrollHeight;
 
             const typingId = "typ-" + Date.now();
-            chatBox.innerHTML += `<div id="${typingId}" class="bg-white border border-slate-200 text-slate-500 p-3 rounded-lg rounded-tl-none w-10/12 text-sm flex items-center gap-2"><i class="fas fa-circle-notch fa-spin"></i> O Professor está analisando...</div>`;
+            chatBox.innerHTML += `<div id="${typingId}" class="bg-slate-800 border border-slate-700 text-slate-400 p-3 rounded-lg rounded-tl-none w-10/12 text-sm flex items-center gap-2"><i class="fas fa-circle-notch fa-spin"></i> O Professor está digitando...</div>`;
             chatBox.scrollTop = chatBox.scrollHeight;
 
             try {
-                // Montando a instrução para a IA (Prompt)
-                const prompt = `Aja como o Professor José, um tutor de inglês sério e excelente de um curso avançado. O aluno fez a seguinte pergunta: "${msg}". Responda de forma clara, educada, didática e focada na gramática/vocabulário da língua inglesa. Escreva a resposta em português brasileiro e seja breve.`;
+                // Tenta usar a API gratuita (via POST)
+                const response = await fetch('https://text.pollinations.ai/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        messages: [
+                            { role: 'system', content: 'Você é o Professor José, um professor de inglês educado. Responda em português de forma breve e didática a dúvida gramatical do aluno.' },
+                            { role: 'user', content: msg }
+                        ]
+                    })
+                });
                 
-                // Chamada direta para a API Pollinations (Gratuita e Sem Chave)
-                const response = await fetch(`https://text.pollinations.ai/${encodeURIComponent(prompt)}`);
-                
-                if(!response.ok) throw new Error("API Failure");
+                if(!response.ok) throw new Error("API Indisponível");
                 
                 const aiResponse = await response.text();
                 
                 document.getElementById(typingId).remove();
-                chatBox.innerHTML += `<div class="bg-white border border-slate-200 text-slate-700 p-4 rounded-lg rounded-tl-none w-11/12 text-[15px] leading-relaxed shadow-sm">${aiResponse.replace(/\n/g, '<br>')}</div>`;
-                chatBox.scrollTop = chatBox.scrollHeight;
+                chatBox.innerHTML += `<div class="bg-slate-800 border border-slate-700 text-slate-200 p-4 rounded-lg rounded-tl-none w-11/12 text-[15px] leading-relaxed shadow-sm">${aiResponse.replace(/\n/g, '<br>')}</div>`;
+                
             } catch (error) {
-                if(document.getElementById(typingId)) document.getElementById(typingId).remove();
-                chatBox.innerHTML += `<div class="bg-rose-50 border border-rose-200 text-rose-800 p-3 rounded-lg rounded-tl-none w-11/12 text-xs"><b>Erro de Conexão:</b> Não foi possível conectar ao servidor do Professor no momento. Tente novamente em alguns segundos.</div>`;
+                // Se o servidor externo cair, o cérebro offline assume a resposta IMEDIATAMENTE (Zero Erros pro usuário).
+                document.getElementById(typingId).remove();
+                const offlineAnswer = generateOfflineResponse(msg);
+                chatBox.innerHTML += `<div class="bg-slate-800 border border-slate-700 text-slate-200 p-4 rounded-lg rounded-tl-none w-11/12 text-[15px] leading-relaxed shadow-sm">${offlineAnswer}</div>`;
             }
+            
+            chatBox.scrollTop = chatBox.scrollHeight;
         }
 
-        // Permite enviar mensagem no chat apertando "Enter"
         document.getElementById('chat-input').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter' && !e.shiftKey) { 
-                e.preventDefault(); 
-                sendMessageViaAPI(); 
-            }
+            if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChatMessage(); }
         });
     </script>
 </body>
