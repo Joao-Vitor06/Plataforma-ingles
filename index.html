@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Quest</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+    <style>
+        body { font-family: 'Nunito', sans-serif; background-color: #f7f9fc; }
+        .btn-duo {
+            transition: all 0.1s;
+            border-bottom: 4px solid rgba(0,0,0,0.2);
+        }
+        .btn-duo:active {
+            transform: translateY(4px);
+            border-bottom: 0px;
+            margin-bottom: 4px;
+        }
+        .shake { animation: shake 0.5s; }
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+            75% { transform: translateX(-10px); }
+            100% { transform: translateX(0); }
+        }
+        .flashcard { perspective: 1000px; }
+        .flashcard-inner {
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-front, .flashcard-back {
+            backface-visibility: hidden;
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+        }
+        .flashcard-back { transform: rotateY(180deg); }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Tela de Login -->
+    <div id="login-screen" class="min-h-screen flex items-center justify-center p-4">
+        <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md text-center">
+            <h1 class="text-3xl font-bold text-blue-500 mb-2">English Quest</h1>
+            <p class="text-gray-500 mb-6">Insira seu nome para salvar seu progresso!</p>
+            <input type="text" id="student-name" placeholder="Seu Nome" class="w-full p-4 border-2 border-gray-200 rounded-xl mb-4 focus:border-blue-500 outline-none text-lg">
+            <button onclick="login()" class="btn-duo w-full bg-blue-500 hover:bg-blue-400 text-white font-bold py-4 rounded-xl text-xl">Começar Aventura</button>
+        </div>
+    </div>
+
+    <!-- Dashboard (Mapa de Lições) -->
+    <div id="dashboard-screen" class="hidden min-h-screen pb-24 p-4 max-w-2xl mx-auto">
+        <div class="flex justify-between items-center mb-8 mt-4 bg-white p-4 rounded-2xl shadow-sm">
+            <h2 class="text-xl font-bold text-gray-700" id="welcome-text">Olá!</h2>
+            <div class="text-red-500 font-bold"><i class="fas fa-heart"></i> <span id="hearts-display">5</span></div>
+        </div>
+
+        <div class="space-y-6" id="lessons-container">
+            <!-- Lições geradas via JS -->
+        </div>
+    </div>
+
+    <!-- Tela de Quiz -->
+    <div id="quiz-screen" class="hidden min-h-screen p-4 max-w-xl mx-auto flex flex-col justify-between">
+        <div>
+            <div class="w-full bg-gray-200 rounded-full h-4 mb-8 mt-4">
+                <div class="bg-green-500 h-4 rounded-full transition-all duration-500" id="progress-bar" style="width: 0%"></div>
+            </div>
+            <h2 class="text-2xl font-bold mb-6" id="question-text">Pergunta aqui</h2>
+            <div id="options-container" class="space-y-4">
+                <!-- Opções geradas via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Erro (Feedback) -->
+    <div id="feedback-modal" class="hidden fixed bottom-0 left-0 w-full bg-red-100 p-6 rounded-t-3xl border-t-4 border-red-500 shadow-[0_-10px_40px_rgba(0,0,0,0.1)] z-50">
+        <h3 class="text-red-600 font-bold text-xl mb-2"><i class="fas fa-times-circle"></i> Incorreto!</h3>
+        <p id="feedback-text" class="text-red-800 text-lg mb-6 font-medium">Explicação aqui.</p>
+        <button onclick="nextQuestion()" class="btn-duo w-full bg-red-500 text-white font-bold py-4 rounded-xl text-xl">Entendi</button>
+    </div>
+
+    <!-- Chatbot Tutor José -->
+    <button onclick="toggleChat()" class="btn-duo fixed bottom-6 right-6 bg-purple-500 text-white w-16 h-16 rounded-full text-2xl shadow-lg z-40 flex items-center justify-center">
+        <i class="fas fa-robot"></i>
+    </button>
+    <div id="chat-window" class="hidden fixed bottom-24 right-6 w-80 bg-white rounded-2xl shadow-2xl border-2 border-gray-100 flex flex-col overflow-hidden z-40" style="height: 400px;">
+        <div class="bg-purple-500 text-white p-4 font-bold flex justify-between items-center">
+            <span>Tutor José</span>
+            <button onclick="toggleChat()"><i class="fas fa-times"></i></button>
+        </div>
+        <div id="chat-messages" class="flex-1 p-4 overflow-y-auto bg-gray-50 flex flex-col gap-3 text-sm">
+            <div class="bg-purple-100 text-purple-800 p-3 rounded-xl rounded-tl-none w-10/12">Olá! Eu sou o José. Qual a sua dúvida sobre a matéria?</div>
+        </div>
+        <div class="p-3 bg-white border-t flex gap-2">
+            <input type="text" id="chat-input" placeholder="Pergunte algo..." class="flex-1 p-2 border rounded-lg outline-none focus:border-purple-500">
+            <button onclick="sendMessage()" class="bg-purple-500 text-white p-2 rounded-lg"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // COLE SUAS CHAVES DO FIREBASE ABAIXO:
+        // ==========================================
+        const firebaseConfig = {
+            apiKey: "COLE_SUA_API_KEY_AQUI",
+            authDomain: "COLE_SEU_AUTH_DOMAIN_AQUI",
+            projectId: "COLE_SEU_PROJECT_ID_AQUI",
+            storageBucket: "COLE_SEU_STORAGE_BUCKET_AQUI",
+            messagingSenderId: "COLE_SEU_MESSAGING_SENDER_ID_AQUI",
+            appId: "COLE_SEU_APP_ID_AQUI"
+        };
+        
+        // ==========================================
+        // COLE SUA CHAVE DO GOOGLE GEMINI (AI STUDIO) ABAIXO:
+        // ==========================================
+        const GEMINI_API_KEY = "COLE_A_CHAVE_DO_GEMINI_AQUI";
+
+        // Inicializa Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // Dados do Aluno
+        let currentUser = null;
+        let userData = { name: '', progress: {}, hearts: 5 };
+
+        // Banco de Questões (Baseado nas suas fotos e exigências)
+        const lessons = [
+            {
+                id: 'l1', title: 'What ou Which?', color: 'bg-blue-500', icon: 'fa-question',
+                questions: [
+                    { q: "______ of those girls is Amy Duncan?", options: ["Why", "What", "Which", "When"], correct: 2, feedback: "Usamos 'Which' porque há um grupo limitado de opções (those girls) para escolher." },
+                    { q: "______ is your favorite color?", options: ["What", "Which", "Who", "Where"], correct: 0, feedback: "Usamos 'What' porque as opções são ilimitadas (todas as cores do mundo)." }
+                ]
+            },
+            {
+                id: 'l2', title: 'Adverbs of Frequency', color: 'bg-orange-500', icon: 'fa-clock',
+                questions: [
+                    { q: "I usually wash my car on Saturday, but _____ I wash my car on Sunday.", options: ["generally", "sometimes", "always", "never"], correct: 1, feedback: "'Usually' indica que acontece com frequência. 'Sometimes' mostra uma exceção." },
+                    { q: "Don't call Lucas now. It's 6 p.m., and he ______ studies before dinner.", options: ["never", "always", "sometimes", "rarely"], correct: 1, feedback: "Pelo contexto ('Não ligue para ele agora'), ele SEMPRE (always) estuda nesse horário." }
+                ]
+            },
+            {
+                id: 'l3', title: 'Also / Too / Either', color: 'bg-green-500', icon: 'fa-plus',
+                questions: [
+                    { q: "I never work on Thanksgiving, and I don't usually work on Friday ______.", options: ["too", "also", "either", "never"], correct: 2, feedback: "CRÍTICO: 'Either' é usado no final de frases NEGATIVAS ('don't usually work')." },
+                    { q: "I love pizza. My brother loves it ______.", options: ["either", "too", "also", "neither"], correct: 1, feedback: "'Too' vai no FINAL de frases AFIRMATIVAS." }
+                ]
+            },
+            {
+                id: 'l4', title: 'Present Continuous x Simple Present', color: 'bg-purple-500', icon: 'fa-play',
+                questions: [
+                    { q: "Vick ________ in his room now. (to sleep)", options: ["sleeps", "is sleeping", "sleeping", "are sleeping"], correct: 1, feedback: "A palavra 'NOW' (agora) exige o Present Continuous (verbo to be + ing)." },
+                    { q: "______ Tom always ______ his grandparents on Sundays?", options: ["Is / visiting", "Does / visit", "Do / visits", "Are / visiting"], correct: 1, feedback: "Há uma rotina ('always', 'on Sundays'), então usamos Simple Present auxiliar: DOES + verbo normal." },
+                    { q: "My dad is a doctor, and he ______ at a hospital.", options: ["is working", "works", "work", "working"], correct: 1, feedback: "É uma situação permanente/fato (ele é médico), logo usamos o Simple Present ('works' para he)." }
+                ]
+            }
+        ];
+
+        // Lógica do App
+        let currentLesson = null;
+        let currentQuestionIndex = 0;
+        let quizQueue = [];
+
+        async function login() {
+            const name = document.getElementById('student-name').value.trim();
+            if(!name) return alert("Digite seu nome!");
+            
+            try {
+                const userCredential = await auth.signInAnonymously();
+                currentUser = userCredential.user;
+                
+                const docRef = db.collection('students').doc(currentUser.uid);
+                const doc = await docRef.get();
+                
+                if (doc.exists) {
+                    userData = doc.data();
+                } else {
+                    userData = { name: name, progress: {}, hearts: 5 };
+                    await docRef.set(userData);
+                }
+                
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('dashboard-screen').classList.remove('hidden');
+                document.getElementById('welcome-text').innerText = `Let's go, ${userData.name}!`;
+                updateDashboard();
+            } catch (error) {
+                alert("Erro ao fazer login. Verifique as chaves do Firebase.");
+                console.error(error);
+            }
+        }
+
+        function updateDashboard() {
+            document.getElementById('hearts-display').innerText = userData.hearts;
+            const container = document.getElementById('lessons-container');
+            container.innerHTML = '';
+            
+            lessons.forEach(lesson => {
+                const isCompleted = userData.progress[lesson.id];
+                container.innerHTML += `
+                    <div class="bg-white border-2 border-gray-100 p-4 rounded-2xl flex items-center justify-between cursor-pointer hover:bg-gray-50 transition" onclick="startLesson('${lesson.id}')">
+                        <div class="flex items-center gap-4">
+                            <div class="${lesson.color} text-white w-14 h-14 rounded-full flex items-center justify-center text-2xl shadow-md">
+                                <i class="fas ${lesson.icon}"></i>
+                            </div>
+                            <div class="text-lg font-bold text-gray-700">${lesson.title}</div>
+                        </div>
+                        ${isCompleted ? '<div class="text-green-500 text-2xl"><i class="fas fa-check-circle"></i></div>' : ''}
+                    </div>
+                `;
+            });
+        }
+
+        function startLesson(id) {
+            currentLesson = lessons.find(l => l.id === id);
+            quizQueue = [...currentLesson.questions]; 
+            currentQuestionIndex = 0;
+            
+            document.getElementById('dashboard-screen').classList.add('hidden');
+            document.getElementById('quiz-screen').classList.remove('hidden');
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            if(quizQueue.length === 0) {
+                finishLesson();
+                return;
+            }
+            const q = quizQueue[0];
+            document.getElementById('question-text').innerText = q.q;
+            
+            const totalQ = currentLesson.questions.length;
+            const progress = ((totalQ - quizQueue.length) / totalQ) * 100;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+
+            const optsContainer = document.getElementById('options-container');
+            optsContainer.innerHTML = '';
+            
+            q.options.forEach((opt, index) => {
+                optsContainer.innerHTML += `
+                    <button onclick="checkAnswer(${index}, this)" class="btn-duo w-full text-left p-4 border-2 border-gray-200 rounded-xl text-lg font-bold text-gray-600 hover:bg-blue-50 hover:border-blue-300">
+                        ${opt}
+                    </button>
+                `;
+            });
+        }
+
+        async function checkAnswer(selectedIndex, btnElement) {
+            const q = quizQueue[0];
+            const buttons = document.getElementById('options-container').querySelectorAll('button');
+            buttons.forEach(b => b.disabled = true); // Desativa botões
+
+            if (selectedIndex === q.correct) {
+                // Acerto
+                btnElement.classList.replace('border-gray-200', 'border-green-500');
+                btnElement.classList.replace('text-gray-600', 'text-green-600');
+                btnElement.classList.add('bg-green-100');
+                quizQueue.shift(); // Remove da fila
+                setTimeout(loadQuestion, 1000);
+            } else {
+                // Erro
+                btnElement.classList.replace('border-gray-200', 'border-red-500');
+                btnElement.classList.replace('text-gray-600', 'text-red-600');
+                btnElement.classList.add('bg-red-100');
+                document.getElementById('quiz-screen').classList.add('shake');
+                
+                // Reduz vida
+                userData.hearts = Math.max(0, userData.hearts - 1);
+                await db.collection('students').doc(currentUser.uid).update({ hearts: userData.hearts });
+                
+                setTimeout(() => {
+                    document.getElementById('quiz-screen').classList.remove('shake');
+                    document.getElementById('feedback-text').innerText = q.feedback;
+                    document.getElementById('feedback-modal').classList.remove('hidden');
+                }, 500);
+            }
+        }
+
+        function nextQuestion() {
+            document.getElementById('feedback-modal').classList.add('hidden');
+            // Move a pergunta errada para o final da fila
+            const failedQuestion = quizQueue.shift();
+            quizQueue.push(failedQuestion);
+            loadQuestion();
+        }
+
+        async function finishLesson() {
+            userData.progress[currentLesson.id] = true;
+            await db.collection('students').doc(currentUser.uid).update({ progress: userData.progress });
+            
+            document.getElementById('quiz-screen').classList.add('hidden');
+            document.getElementById('dashboard-screen').classList.remove('hidden');
+            updateDashboard();
+        }
+
+        // --- Chatbot Tutor José (Gemini) ---
+        function toggleChat() {
+            document.getElementById('chat-window').classList.toggle('hidden');
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const msg = input.value.trim();
+            if(!msg) return;
+            
+            const chatBox = document.getElementById('chat-messages');
+            chatBox.innerHTML += `<div class="bg-gray-200 text-gray-800 p-3 rounded-xl rounded-tr-none w-10/12 self-end ml-auto">${msg}</div>`;
+            input.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            if(GEMINI_API_KEY === "COLE_A_CHAVE_DO_GEMINI_AQUI") {
+                chatBox.innerHTML += `<div class="bg-purple-100 text-purple-800 p-3 rounded-xl rounded-tl-none w-10/12">Ops, o professor ainda não configurou minha inteligência!</div>`;
+                return;
+            }
+
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: `Aja como José, um tutor de inglês muito simpático. Responda de forma curta, didática e em português a dúvida do aluno: ${msg}` }] }]
+                    })
+                });
+                const data = await response.json();
+                const aiResponse = data.candidates[0].content.parts[0].text;
+                chatBox.innerHTML += `<div class="bg-purple-100 text-purple-800 p-3 rounded-xl rounded-tl-none w-10/12">${aiResponse}</div>`;
+                chatBox.scrollTop = chatBox.scrollHeight;
+            } catch (error) {
+                chatBox.innerHTML += `<div class="bg-red-100 text-red-800 p-3 rounded-xl rounded-tl-none w-10/12">Desculpe, tive um problema de conexão.</div>`;
+            }
+        }
+    </script>
+</body>
+</html>
