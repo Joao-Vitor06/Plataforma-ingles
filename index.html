@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>English Quest - CCAA Pro</title>
+    <title>English Mastery Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <!-- Firebase SDKs -->
@@ -12,158 +12,132 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
     <style>
-        body { font-family: 'Nunito', sans-serif; background-color: #f0f4f8; }
-        .btn-duo {
-            transition: all 0.1s;
-            border-bottom: 5px solid rgba(0,0,0,0.2);
-        }
-        .btn-duo:active {
-            transform: translateY(5px);
-            border-bottom: 0px;
-            margin-bottom: 5px;
-        }
-        .shake { animation: shake 0.5s; }
-        @keyframes shake {
-            0% { transform: translateX(0); }
-            25% { transform: translateX(-8px); }
-            50% { transform: translateX(8px); }
-            75% { transform: translateX(-8px); }
-            100% { transform: translateX(0); }
-        }
-        .tab-active { border-bottom: 4px solid #3b82f6; color: #3b82f6; font-weight: bold; }
-        .card-hover:hover { transform: translateY(-5px); transition: 0.3s; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; color: #1f2937; }
+        .module-card { transition: all 0.2s ease-in-out; }
+        .module-card:hover { transform: translateY(-4px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); }
+        .input-strict { border: 2px solid #e5e7eb; transition: border-color 0.2s; }
+        .input-strict:focus { border-color: #4f46e5; outline: none; box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2); }
+        .btn-primary { background-color: #4f46e5; color: white; transition: background-color 0.2s; }
+        .btn-primary:hover { background-color: #4338ca; }
     </style>
 </head>
-<body class="text-gray-800">
+<body class="antialiased min-h-screen flex flex-col">
 
     <!-- Tela de Login -->
-    <div id="login-screen" class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-blue-500 to-purple-600">
-        <div class="bg-white p-10 rounded-3xl shadow-2xl w-full max-w-md text-center transform transition-all">
-            <div class="bg-blue-100 text-blue-500 w-24 h-24 rounded-full flex items-center justify-center text-5xl mx-auto mb-6 shadow-inner">
-                <i class="fas fa-graduation-cap"></i>
+    <div id="login-screen" class="min-h-screen flex items-center justify-center p-4 bg-slate-900">
+        <div class="bg-white p-10 rounded-xl shadow-2xl w-full max-w-lg">
+            <div class="text-center mb-10">
+                <h1 class="text-3xl font-extrabold text-slate-900 mb-2 tracking-tight">English Mastery Hub</h1>
+                <p class="text-slate-500">Plataforma Avançada de Revisão</p>
             </div>
-            <h1 class="text-4xl font-extrabold text-gray-800 mb-2">English Quest</h1>
-            <p class="text-gray-500 mb-8 font-medium">Prepare-se para a prova gabaritando as missões!</p>
-            <input type="text" id="student-name" placeholder="Digite seu nome..." class="w-full p-4 border-2 border-gray-200 rounded-2xl mb-6 focus:border-blue-500 outline-none text-lg text-center font-bold text-gray-700 bg-gray-50">
-            <button onclick="login()" class="btn-duo w-full bg-blue-500 hover:bg-blue-400 text-white font-bold py-4 rounded-2xl text-xl uppercase tracking-wider">Jogar Agora</button>
+            <div class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Identificação do Aluno</label>
+                    <input type="text" id="student-name" placeholder="Nome completo" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-slate-800 font-medium">
+                </div>
+                <button onclick="login()" class="w-full btn-primary font-semibold py-4 rounded-lg text-lg flex justify-center items-center gap-2">
+                    Acessar Plataforma <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
         </div>
     </div>
 
-    <!-- Dashboard Principal -->
-    <div id="dashboard-screen" class="hidden min-h-screen pb-24 bg-gray-50">
-        <!-- Topbar -->
-        <div class="bg-white px-4 py-4 shadow-sm sticky top-0 z-30">
-            <div class="max-w-3xl mx-auto flex justify-between items-center">
-                <h2 class="text-xl font-extrabold text-gray-800" id="welcome-text">Olá!</h2>
-                <div class="flex gap-4">
-                    <div class="text-yellow-500 font-bold bg-yellow-100 px-3 py-1 rounded-xl flex items-center gap-2">
-                        <i class="fas fa-star"></i> <span id="xp-display">0</span> XP
-                    </div>
-                    <div class="text-red-500 font-bold bg-red-100 px-3 py-1 rounded-xl flex items-center gap-2">
-                        <i class="fas fa-heart"></i> <span id="hearts-display">5</span>
+    <!-- Dashboard -->
+    <div id="dashboard-screen" class="hidden flex-1 flex flex-col bg-slate-50">
+        <header class="bg-white border-b border-slate-200 sticky top-0 z-30">
+            <div class="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
+                <div>
+                    <h2 class="text-2xl font-extrabold text-slate-800">Review Center</h2>
+                    <p class="text-sm text-slate-500" id="welcome-text">Bem-vindo(a)</p>
+                </div>
+                <div class="flex items-center gap-6">
+                    <div class="text-slate-600 font-semibold flex items-center gap-2">
+                        <i class="fas fa-bullseye text-indigo-500"></i> Score: <span id="score-display">0</span>
                     </div>
                 </div>
             </div>
-        </div>
+        </header>
 
-        <!-- Menu de Abas -->
-        <div class="max-w-3xl mx-auto flex mt-6 px-4 border-b-2 border-gray-200">
-            <button onclick="switchTab('trilha')" id="tab-trilha" class="flex-1 pb-3 tab-active text-lg">Trilha de Missões</button>
-            <button onclick="switchTab('colinha')" id="tab-colinha" class="flex-1 pb-3 text-gray-500 font-medium text-lg text-lg">Minha Colinha</button>
-        </div>
-
-        <!-- Conteúdo: Trilha de Missões -->
-        <div id="trilha-content" class="max-w-2xl mx-auto p-4 mt-4 space-y-6">
-            <!-- Gerado via JS -->
-        </div>
-
-        <!-- Conteúdo: Minha Colinha (Teoria) -->
-        <div id="colinha-content" class="hidden max-w-3xl mx-auto p-4 mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="bg-white p-6 rounded-2xl shadow-sm border-2 border-blue-100 card-hover">
-                <h3 class="text-xl font-bold text-blue-600 mb-2"><i class="fas fa-bolt"></i> Present Continuous</h3>
-                <p class="text-gray-600 text-sm">Ações acontecendo <b>agora</b> (now, at the moment).<br><br><b>Estrutura:</b> Verbo to be (am/is/are) + Verbo com ING.<br>Ex: <i>Vick is sleeping in his room now.</i></p>
+        <main class="max-w-5xl mx-auto w-full px-6 py-10 flex-1">
+            <h3 class="text-lg font-bold text-slate-800 mb-6 border-b pb-2">Módulos de Estudo</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="modules-container">
+                <!-- Módulos gerados via JS -->
             </div>
-            <div class="bg-white p-6 rounded-2xl shadow-sm border-2 border-green-100 card-hover">
-                <h3 class="text-xl font-bold text-green-600 mb-2"><i class="fas fa-calendar-check"></i> Simple Present</h3>
-                <p class="text-gray-600 text-sm">Rotinas e fatos (always, usually, on Sundays).<br><br><b>Estrutura:</b> He/She/It ganha "S" no verbo.<br><b>Perguntas:</b> Usa Do ou Does.<br>Ex: <i>My dad works at a hospital.</i></p>
-            </div>
-            <div class="bg-white p-6 rounded-2xl shadow-sm border-2 border-orange-100 card-hover">
-                <h3 class="text-xl font-bold text-orange-600 mb-2"><i class="fas fa-hand-point-right"></i> This, That, These, Those</h3>
-                <ul class="text-gray-600 text-sm list-disc pl-4 space-y-1">
-                    <li><b>This:</b> Perto, singular (Este/Esta)</li>
-                    <li><b>These:</b> Perto, plural (Estes/Estas)</li>
-                    <li><b>That:</b> Longe, singular (Aquele/Aquela)</li>
-                    <li><b>Those:</b> Longe, plural (Aqueles/Aquelas)</li>
-                </ul>
-            </div>
-            <div class="bg-white p-6 rounded-2xl shadow-sm border-2 border-purple-100 card-hover">
-                <h3 class="text-xl font-bold text-purple-600 mb-2"><i class="fas fa-plus"></i> Also, Too e Either</h3>
-                <ul class="text-gray-600 text-sm list-disc pl-4 space-y-1">
-                    <li><b>Also:</b> Frases afirmativas (antes do verbo principal).</li>
-                    <li><b>Too:</b> Frases afirmativas (sempre no FINAL).</li>
-                    <li><b>Either:</b> Frases negativas (sempre no FINAL).</li>
-                </ul>
-            </div>
-            <div class="bg-white p-6 rounded-2xl shadow-sm border-2 border-red-100 card-hover md:col-span-2">
-                <h3 class="text-xl font-bold text-red-600 mb-2"><i class="fas fa-question-circle"></i> What vs Which</h3>
-                <p class="text-gray-600 text-sm"><b>What:</b> Usado para perguntas gerais, opções ilimitadas. (Ex: What is your name?)<br><b>Which:</b> Usado quando há opções limitadas/específicas para escolher. (Ex: Which of those girls is Amy?)</p>
-            </div>
-        </div>
+        </main>
     </div>
 
-    <!-- Tela de Quiz -->
+    <!-- Tela de Exercício -->
     <div id="quiz-screen" class="hidden min-h-screen bg-white flex flex-col">
-        <div class="max-w-2xl mx-auto w-full p-6 flex-1 flex flex-col">
-            <!-- Barra de Progresso -->
-            <div class="flex items-center gap-4 mb-8">
-                <button onclick="abortLesson()" class="text-gray-400 hover:text-gray-600 text-2xl"><i class="fas fa-times"></i></button>
-                <div class="w-full bg-gray-200 rounded-full h-4">
-                    <div class="bg-green-500 h-4 rounded-full transition-all duration-500" id="progress-bar" style="width: 0%"></div>
+        <header class="bg-white border-b border-slate-200 p-4">
+            <div class="max-w-3xl mx-auto flex items-center gap-6">
+                <button onclick="abortLesson()" class="text-slate-400 hover:text-slate-700 transition"><i class="fas fa-arrow-left text-xl"></i></button>
+                <div class="w-full bg-slate-100 rounded-full h-3">
+                    <div class="bg-indigo-600 h-3 rounded-full transition-all duration-300" id="progress-bar" style="width: 0%"></div>
+                </div>
+                <span id="question-counter" class="text-sm font-bold text-slate-500 whitespace-nowrap">0 / 0</span>
+            </div>
+        </header>
+
+        <main class="max-w-3xl mx-auto w-full p-6 py-12 flex-1 flex flex-col">
+            <div class="mb-8">
+                <span id="question-type-badge" class="inline-block px-3 py-1 bg-indigo-100 text-indigo-700 text-xs font-bold uppercase tracking-wider rounded-md mb-4">Múltipla Escolha</span>
+                <h2 class="text-2xl font-bold text-slate-800 leading-relaxed" id="question-text">Pergunta</h2>
+            </div>
+            
+            <!-- Container dinâmico para opções de clique ou campo de texto -->
+            <div id="interaction-container" class="space-y-4 flex-1"></div>
+            
+            <div id="action-container" class="mt-8 hidden">
+                <button onclick="checkTextAnswer()" class="w-full btn-primary font-bold py-4 rounded-lg text-lg">Verificar Resposta</button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal de Feedback Rigoroso -->
+    <div id="feedback-modal" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-4">
+        <div id="feedback-card" class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden transform transition-all">
+            <div id="feedback-header" class="p-6 border-b">
+                <h3 id="feedback-title" class="font-extrabold text-2xl flex items-center gap-3"></h3>
+            </div>
+            <div class="p-6 bg-slate-50">
+                <p class="text-sm text-slate-500 font-semibold mb-1 uppercase tracking-wider">Análise do Sistema:</p>
+                <p id="feedback-explanation" class="text-slate-800 text-lg leading-relaxed"></p>
+                
+                <div id="correct-answer-box" class="mt-4 p-4 bg-emerald-50 border border-emerald-200 rounded-lg hidden">
+                    <p class="text-xs text-emerald-700 font-bold uppercase mb-1">Resposta Correta Esperada:</p>
+                    <p id="correct-answer-text" class="text-emerald-900 font-mono font-bold text-lg"></p>
                 </div>
             </div>
-
-            <h2 class="text-3xl font-extrabold mb-8 text-gray-800 leading-tight" id="question-text">Pergunta</h2>
-            
-            <div id="options-container" class="space-y-4 flex-1">
-                <!-- Opções -->
+            <div class="p-6 bg-white border-t">
+                <button onclick="nextQuestion()" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-4 rounded-lg text-lg transition">Próxima Questão</button>
             </div>
         </div>
     </div>
 
-    <!-- Modal de Feedback (Erro ou Acerto) -->
-    <div id="feedback-modal" class="hidden fixed bottom-0 left-0 w-full p-6 rounded-t-3xl shadow-[0_-10px_40px_rgba(0,0,0,0.1)] z-50 transition-all">
-        <div class="max-w-2xl mx-auto">
-            <h3 id="feedback-title" class="font-extrabold text-2xl mb-2 flex items-center gap-2"></h3>
-            <p id="feedback-text" class="text-lg mb-6 font-medium"></p>
-            <button id="feedback-btn" onclick="nextQuestion()" class="btn-duo w-full font-bold py-4 rounded-2xl text-xl text-white tracking-wide uppercase"></button>
-        </div>
-    </div>
-
-    <!-- Tela de Conclusão de Missão -->
-    <div id="success-screen" class="hidden min-h-screen flex items-center justify-center p-4 bg-green-500 text-white text-center">
-        <div>
-            <i class="fas fa-trophy text-7xl text-yellow-300 mb-6"></i>
-            <h1 class="text-4xl font-extrabold mb-4">Missão Cumprida!</h1>
-            <p class="text-xl font-medium mb-8">+25 XP ganhos</p>
-            <button onclick="returnToDashboard()" class="btn-duo bg-white text-green-600 px-10 py-4 rounded-2xl text-xl font-bold uppercase">Continuar</button>
-        </div>
-    </div>
-
-    <!-- Chatbot Tutor José -->
-    <button onclick="toggleChat()" class="btn-duo fixed bottom-6 right-6 bg-purple-600 hover:bg-purple-500 text-white w-16 h-16 rounded-full text-2xl shadow-2xl z-40 flex items-center justify-center border-4 border-white">
-        <i class="fas fa-robot"></i>
+    <!-- Chatbot Mestre José -->
+    <button onclick="toggleChat()" class="fixed bottom-8 right-8 bg-indigo-600 hover:bg-indigo-700 text-white w-14 h-14 rounded-full shadow-lg z-40 flex items-center justify-center transition hover:scale-105">
+        <i class="fas fa-comment-dots text-2xl"></i>
     </button>
-    <div id="chat-window" class="hidden fixed bottom-28 right-6 w-80 bg-white rounded-3xl shadow-2xl border border-gray-100 flex flex-col overflow-hidden z-40" style="height: 450px;">
-        <div class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-4 font-bold flex justify-between items-center">
-            <div class="flex items-center gap-2"><i class="fas fa-robot text-2xl"></i> Tutor José</div>
-            <button onclick="toggleChat()" class="text-white hover:text-gray-200"><i class="fas fa-times text-xl"></i></button>
+    <div id="chat-window" class="hidden fixed bottom-24 right-8 w-96 bg-white rounded-xl shadow-2xl border border-slate-200 flex flex-col overflow-hidden z-40" style="height: 500px;">
+        <div class="bg-indigo-600 text-white p-4 font-bold flex justify-between items-center shadow-sm z-10">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center"><i class="fas fa-robot"></i></div>
+                <div>
+                    <div class="text-sm leading-tight">Mestre José</div>
+                    <div class="text-[10px] font-normal text-indigo-200">IA de Suporte Pedagógico</div>
+                </div>
+            </div>
+            <button onclick="toggleChat()" class="text-indigo-200 hover:text-white transition"><i class="fas fa-times text-lg"></i></button>
         </div>
-        <div id="chat-messages" class="flex-1 p-4 overflow-y-auto bg-gray-50 flex flex-col gap-3 text-sm">
-            <div class="bg-purple-100 text-purple-900 p-3 rounded-2xl rounded-tl-none w-10/12 shadow-sm font-medium">Hello! Eu sou o José. Qual parte da matéria você quer revisar?</div>
+        <div id="chat-messages" class="flex-1 p-4 overflow-y-auto bg-slate-50 flex flex-col gap-4 text-sm">
+            <div class="bg-white border border-slate-200 text-slate-800 p-3 rounded-lg rounded-tl-none w-10/12 shadow-sm font-medium">
+                Olá. Eu sou o Mestre José. Estou aqui para analisar suas dúvidas gramaticais e de vocabulário. O que deseja saber?
+            </div>
         </div>
-        <div class="p-3 bg-white border-t flex gap-2">
-            <input type="text" id="chat-input" placeholder="Tire sua dúvida..." class="flex-1 p-3 bg-gray-100 rounded-xl outline-none focus:ring-2 focus:ring-purple-400 transition-all">
-            <button onclick="sendMessage()" class="bg-purple-600 text-white p-3 w-12 h-12 rounded-xl flex items-center justify-center hover:bg-purple-700 transition"><i class="fas fa-paper-plane"></i></button>
+        <div class="p-3 bg-white border-t border-slate-200 flex gap-2">
+            <input type="text" id="chat-input" placeholder="Faça sua pergunta..." class="flex-1 p-3 bg-slate-100 rounded-lg border-transparent focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition text-sm">
+            <button onclick="sendMessage()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 rounded-lg transition"><i class="fas fa-paper-plane"></i></button>
         </div>
     </div>
 
@@ -190,88 +164,74 @@
         const db = firebase.firestore();
 
         let currentUser = null;
-        let userData = { name: '', progress: {}, hearts: 5, xp: 0 };
+        let userData = { name: '', progress: {}, score: 0 };
 
-        // BANCO DE MISSÕES EXPANDIDO (Baseado nas fotos e lista de vocabulário)
-        const lessons = [
+        // BANCO DE DADOS DE QUESTÕES (Alto Nível)
+        const modules = [
             {
-                id: 'l1', title: '1. What vs Which', desc: 'Identificando opções', color: 'bg-blue-500', icon: 'fa-search',
+                id: 'm1', title: '1. Grammar: Tenses & Logic', desc: 'Present Continuous, Simple Present, Imperative', icon: 'fa-layer-group', color: 'text-blue-600', bg: 'bg-blue-50',
                 questions: [
-                    { q: "______ of those girls is Amy Duncan?", options: ["Why", "What", "Which", "When"], correct: 2, feedback: "Quando há um grupo específico ('those girls'), usamos WHICH." },
-                    { q: "______ time do you usually have breakfast?", options: ["What", "Which", "When", "Why"], correct: 0, feedback: "Para perguntas gerais sobre horas, usamos WHAT time." }
+                    { type: 'write', q: "Complete a lacuna com a forma correta do verbo em parênteses:\n\nVick ________ (to sleep) in his room now.", correct: ["is sleeping"], feedback: "A presença da palavra 'now' exige o Present Continuous (verbo to be + verbo com -ing)." },
+                    { type: 'write', q: "Complete a lacuna adequadamente para uma rotina:\n\n______ Tom always ______ (to visit) his grandparents on Sundays?", correct: ["does visit", "does/visit"], feedback: "Sendo uma pergunta no Simple Present para 'He/She/It', usamos o auxiliar 'Does' e o verbo volta ao normal (visit)." },
+                    { type: 'choice', q: "My dad is a doctor, and he ______ at a hospital.", options: ["is working", "works", "work", "working"], correct: 1, feedback: "Trata-se de um fato/situação permanente (ser médico e trabalhar no hospital), logo exige Simple Present ('works' para He)." },
+                    { type: 'write', q: "Traduza a frase imperativa para o inglês (ordem negativa):\n\nNão ligue para o Lucas agora.", correct: ["don't call lucas now", "do not call lucas now"], feedback: "O imperativo negativo é sempre formado usando 'Don't' + verbo na forma base." }
                 ]
             },
             {
-                id: 'l2', title: '2. This, That, These, Those', desc: 'Pronomes Demonstrativos', color: 'bg-teal-500', icon: 'fa-hand-pointer',
+                id: 'm2', title: '2. Grammar: Particles & Pronouns', desc: 'What/Which, Also/Too/Either, Demonstratives', icon: 'fa-puzzle-piece', color: 'text-indigo-600', bg: 'bg-indigo-50',
                 questions: [
-                    { q: "Are ______ your pens on this table here?", options: ["this", "those", "these", "that"], correct: 2, feedback: "Como as canetas estão perto ('here') e no plural, usamos THESE." },
-                    { q: "Look at ______ stadium across the avenue!", options: ["this", "these", "those", "that"], correct: 3, feedback: "O estádio está longe ('across the avenue') e no singular, logo usamos THAT." }
+                    { type: 'choice', q: "______ of those girls is Amy Duncan?", options: ["Why", "What", "Which", "Who"], correct: 2, feedback: "Usamos 'Which' e não 'What' porque estamos restringindo a escolha a um grupo específico ('those girls')." },
+                    { type: 'write', q: "I never work on Thanksgiving, and I don't usually work on Friday ______.", correct: ["either"], feedback: "A palavra 'either' é usada no final de frases negativas para indicar 'também não'." },
+                    { type: 'write', q: "Complete the sentence with the correct demonstrative pronoun:\n\nLook at ______ stadium across the avenue!", correct: ["that"], feedback: "O estádio está do outro lado da avenida (longe = that/those) e é singular. Logo, usamos 'that'." },
+                    { type: 'choice', q: "I love pizza. My brother loves it ______.", options: ["also", "too", "either"], correct: 1, feedback: "'Too' vai sempre no final de frases afirmativas." }
                 ]
             },
             {
-                id: 'l3', title: '3. There is / There are', desc: 'A cidade e o mapa', color: 'bg-yellow-500', icon: 'fa-map-marker-alt',
+                id: 'm3', title: '3. Vocabulary: City & Traffic', desc: 'Garage, Avenue, Block, Near, Across...', icon: 'fa-city', color: 'text-emerald-600', bg: 'bg-emerald-50',
                 questions: [
-                    { q: "______ a parking lot across the street from the stadium.", options: ["There are", "There is", "Have", "Has"], correct: 1, feedback: "Para dizer que existe 'um estacionamento' (singular), usamos THERE IS." },
-                    { q: "______ three bedrooms in our house.", options: ["There is", "They are", "There are", "Are there"], correct: 2, feedback: "'Three bedrooms' é plural, então usamos THERE ARE para indicar existência." }
+                    { type: 'write', q: "Como se diz 'semáforo' em inglês?", correct: ["traffic light", "light"], feedback: "Semáforo é traduzido como 'traffic light' ou apenas 'light'." },
+                    { type: 'write', q: "Complete com a preposição correta:\n\nThere is a parking lot ______ the street from the stadium. (do outro lado)", correct: ["across"], feedback: "Do outro lado de algo se traduz como 'across' (geralmente acompanhado de 'from')." },
+                    { type: 'choice', q: "The hospital is six ______ from the high school. (quarteirões)", options: ["avenues", "corners", "blocks", "garages"], correct: 2, feedback: "Quarteirão em inglês é 'block'." },
+                    { type: 'write', q: "Como se escreve 'recepcionista' em inglês?", correct: ["receptionist", "front desk clerk", "clerk"], feedback: "Pode-se usar 'receptionist', 'clerk' ou 'front desk clerk'." }
                 ]
             },
             {
-                id: 'l4', title: '4. Present Continuous vs Simple Present', desc: 'Ações vs Rotinas', color: 'bg-purple-500', icon: 'fa-running',
+                id: 'm4', title: '4. Vocabulary: Food, Jobs & Verbs', desc: 'Roast turkey, Mechanic, To borrow...', icon: 'fa-utensils', color: 'text-orange-600', bg: 'bg-orange-50',
                 questions: [
-                    { q: "Vick ________ in his room now. (to sleep)", options: ["sleeps", "is sleeping", "sleeping", "are sleeping"], correct: 1, feedback: "A palavra 'now' indica algo acontecendo neste momento. Verbo to be + ING." },
-                    { q: "My dad is a doctor, and he ______ at a hospital.", options: ["is working", "works", "work", "working"], correct: 1, feedback: "Trabalhar no hospital é uma rotina/fato do pai dele. Usamos o Simple Present (works para he)." },
-                    { q: "______ Tom always ______ his grandparents on Sundays?", options: ["Is / visiting", "Does / visit", "Do / visits", "Are / visiting"], correct: 1, feedback: "Por ser uma rotina (always, Sundays), usamos o auxiliar DOES." }
+                    { type: 'write', q: "Escreva em inglês: 'Eu preciso cortar a grama'.\nI need to ______ the ______.", correct: ["mow lawn", "mow the lawn"], feedback: "Cortar a grama é 'to mow the lawn'. O aparelho é o 'lawnmower'." },
+                    { type: 'choice', q: "Qual o profissional responsável por consertar motores (engine)?", options: ["Driver", "Receptionist", "Mechanic", "Doctor"], correct: 2, feedback: "Um 'mechanic' conserta ('to fix') motores ('engines')." },
+                    { type: 'write', q: "Traduza 'Frango assado' para o inglês:", correct: ["roast chicken"], feedback: "Frango assado é 'roast chicken'." },
+                    { type: 'write', q: "Como se diz o verbo 'pegar emprestado' em inglês?", correct: ["to borrow", "borrow"], feedback: "Pegar emprestado é 'to borrow'." }
                 ]
             },
             {
-                id: 'l5', title: '5. Also, Too & Either', desc: 'Concordando em inglês', color: 'bg-pink-500', icon: 'fa-plus-circle',
+                id: 'm5', title: '5. Final Exam (Simulado)', desc: 'Desafio final combinando todas as matérias', icon: 'fa-graduation-cap', color: 'text-rose-600', bg: 'bg-rose-50',
                 questions: [
-                    { q: "I never work on Thanksgiving, and I don't usually work on Friday ______.", options: ["too", "also", "either", "never"], correct: 2, feedback: "A frase é NEGATIVA ('don't usually work'). No final de frases negativas usamos EITHER." },
-                    { q: "I have a sister and a brother. We ______ have a dog.", options: ["either", "too", "also", "neither"], correct: 2, feedback: "Usamos ALSO no meio da frase afirmativa (antes do verbo)." }
-                ]
-            },
-            {
-                id: 'l6', title: '6. Adverbs & Imperative', desc: 'Frequências e Ordens', color: 'bg-indigo-500', icon: 'fa-exclamation',
-                questions: [
-                    { q: "I usually wash my car on Saturday, but _____ I wash my car on Sunday.", options: ["generally", "sometimes", "always", "never"], correct: 1, feedback: "'Usually' indica que é o comum. A palavra 'but' (mas) indica uma exceção, então 'sometimes' (às vezes) encaixa." },
-                    { q: "______ call Lucas now. It's 6 p.m., and he always studies.", options: ["Don't", "Doesn't", "Not", "No"], correct: 0, feedback: "Para dar uma ordem/instrução negativa (Imperativo), usamos sempre DON'T." }
-                ]
-            },
-            {
-                id: 'l7', title: '7. Vocabulário: Comidas e Locais', desc: 'Chicken, Potato, Hotel...', color: 'bg-green-500', icon: 'fa-utensils',
-                questions: [
-                    { q: "What do you call a place where you sleep when traveling?", options: ["Restaurant", "Skate park", "Hotel", "Garage"], correct: 2, feedback: "Hotel é onde nos hospedamos." },
-                    { q: "Which of these is a vegetable?", options: ["Roast chicken", "Potato", "Juice", "Cookie"], correct: 1, feedback: "Potato (batata) é o vegetal da lista." },
-                    { q: "The person who fixes the engine of your car is the:", options: ["Clerk", "Doctor", "Driver", "Mechanic"], correct: 3, feedback: "Mechanic conserta o motor (engine) do carro." }
-                ]
-            },
-            {
-                id: 'l8', title: '8. Vocabulário: Esportes e Rotinas', desc: 'Swim, Run, Lawnmower...', color: 'bg-orange-500', icon: 'fa-biking',
-                questions: [
-                    { q: "A person who runs is a:", options: ["Runner", "Swimmer", "Cyclist", "Driver"], correct: 0, feedback: "Run -> Runner (Corredor)." },
-                    { q: "I need to ______ the lawn with the lawnmower.", options: ["open", "mow", "fix", "borrow"], correct: 1, feedback: "Cortar a grama em inglês é 'to mow the lawn'." },
-                    { q: "We need an ambulance! Take him to the ______.", options: ["Stadium", "Conference", "Skate park", "Hospital"], correct: 3, feedback: "Ambulância e médicos estão no Hospital." }
+                    { type: 'choice', q: "I usually wash my car on Saturday, but _____ I wash my car on Sunday.", options: ["generally", "sometimes", "always", "never"], correct: 1, feedback: "A conjunção 'but' indica quebra de padrão, então 'sometimes' faz sentido no contexto." },
+                    { type: 'write', q: "Are ______ your pens on this table here? (Estas)", correct: ["these"], feedback: "As canetas estão perto ('here') e no plural, logo o pronome é 'these'." },
+                    { type: 'write', q: "Escreva o número ordinal para '3' (terceiro):", correct: ["third", "3rd"], feedback: "O terceiro em ordinal é 'third'." },
+                    { type: 'write', q: "Escreva o número 150 por extenso em inglês:", correct: ["one hundred and fifty", "one hundred fifty"], feedback: "Números de três dígitos como 150 são lidos como 'one hundred (and) fifty'." },
+                    { type: 'write', q: "Alice doesn't go to the club with John on Wednesdays. She ______ goes on the weekends. (somente)", correct: ["only"], feedback: "Somente / apenas é traduzido como 'only'." },
+                    { type: 'choice', q: "Como perguntar a frequência com que alguém pratica esportes?", options: ["How many do you play sports?", "How often do you play sports?", "What time do you play sports?", "When you play sports?"], correct: 1, feedback: "'How often' é a expressão usada para perguntar sobre frequência." }
                 ]
             }
         ];
 
-        let currentLesson = null;
+        let currentModule = null;
         let currentQuestionIndex = 0;
-        let quizQueue = [];
         let isAnswered = false;
 
         async function login() {
             const name = document.getElementById('student-name').value.trim();
-            if(!name) return;
+            if(!name) return alert("Por favor, insira seu nome de identificação.");
             
-            // Botão de loading
-            document.querySelector('#login-screen button').innerText = "Carregando...";
+            document.querySelector('#login-screen button').innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Autenticando...';
             
             try {
                 const userCredential = await auth.signInAnonymously();
                 currentUser = userCredential.user;
                 
-                const docRef = db.collection('students').doc(currentUser.uid);
+                const docRef = db.collection('students_pro').doc(currentUser.uid);
                 const doc = await docRef.get();
                 
                 if (doc.exists) {
@@ -283,173 +243,164 @@
                 
                 document.getElementById('login-screen').classList.add('hidden');
                 document.getElementById('dashboard-screen').classList.remove('hidden');
-                document.getElementById('welcome-text').innerText = `Let's go, ${userData.name}!`;
+                document.getElementById('welcome-text').innerText = `Aluno(a): ${userData.name}`;
                 updateDashboard();
             } catch (error) {
-                alert("Erro. Verifique as Regras do Firestore e suas Chaves.");
-                document.querySelector('#login-screen button').innerText = "Jogar Agora";
-            }
-        }
-
-        function switchTab(tab) {
-            document.getElementById('tab-trilha').classList.remove('tab-active', 'text-gray-500');
-            document.getElementById('tab-colinha').classList.remove('tab-active', 'text-gray-500');
-            
-            if(tab === 'trilha') {
-                document.getElementById('tab-trilha').classList.add('tab-active');
-                document.getElementById('tab-colinha').classList.add('text-gray-500');
-                document.getElementById('trilha-content').classList.remove('hidden');
-                document.getElementById('colinha-content').classList.add('hidden');
-            } else {
-                document.getElementById('tab-colinha').classList.add('tab-active');
-                document.getElementById('tab-trilha').classList.add('text-gray-500');
-                document.getElementById('colinha-content').classList.remove('hidden');
-                document.getElementById('trilha-content').classList.add('hidden');
+                alert("Erro de autenticação no banco de dados. Verifique o Firestore Rules.");
+                document.querySelector('#login-screen button').innerHTML = 'Acessar Plataforma <i class="fas fa-arrow-right"></i>';
             }
         }
 
         function updateDashboard() {
-            document.getElementById('hearts-display').innerText = userData.hearts;
-            document.getElementById('xp-display').innerText = userData.xp || 0;
-            const container = document.getElementById('trilha-content');
+            document.getElementById('score-display').innerText = userData.score || 0;
+            const container = document.getElementById('modules-container');
             container.innerHTML = '';
             
-            lessons.forEach((lesson, index) => {
-                const isCompleted = userData.progress[lesson.id];
-                // Desbloqueia se for a lição 1, ou se a anterior foi completada
-                const isLocked = index > 0 && !userData.progress[lessons[index-1].id];
-                
-                let lockOverlay = isLocked ? `<div class="absolute inset-0 bg-white/60 backdrop-blur-[1px] rounded-3xl flex items-center justify-center z-10"><i class="fas fa-lock text-3xl text-gray-400"></i></div>` : '';
+            modules.forEach((mod) => {
+                const isCompleted = userData.progress[mod.id];
                 
                 container.innerHTML += `
-                    <div class="relative bg-white border-2 border-gray-100 p-5 rounded-3xl flex items-center justify-between ${isLocked ? '' : 'cursor-pointer card-hover hover:border-blue-300'} shadow-sm" onclick="${isLocked ? '' : `startLesson('${lesson.id}')`}">
-                        ${lockOverlay}
-                        <div class="flex items-center gap-5">
-                            <div class="${isCompleted ? 'bg-green-500' : lesson.color} text-white w-16 h-16 rounded-2xl flex items-center justify-center text-3xl shadow-md rotate-3">
-                                <i class="fas ${isCompleted ? 'fa-check' : lesson.icon}"></i>
+                    <div class="module-card bg-white border border-slate-200 p-6 rounded-xl cursor-pointer" onclick="startModule('${mod.id}')">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-lg ${mod.bg} ${mod.color} flex items-center justify-center text-xl">
+                                <i class="fas ${mod.icon}"></i>
                             </div>
-                            <div>
-                                <h3 class="text-xl font-extrabold text-gray-800">${lesson.title}</h3>
-                                <p class="text-gray-500 font-medium">${lesson.desc}</p>
-                            </div>
+                            ${isCompleted ? '<div class="text-emerald-500 font-bold text-sm bg-emerald-50 px-2 py-1 rounded"><i class="fas fa-check"></i> CONCLUÍDO</div>' : ''}
                         </div>
+                        <h4 class="text-lg font-bold text-slate-800 mb-1">${mod.title}</h4>
+                        <p class="text-sm text-slate-500">${mod.desc}</p>
                     </div>
                 `;
             });
         }
 
-        function startLesson(id) {
-            currentLesson = lessons.find(l => l.id === id);
-            quizQueue = [...currentLesson.questions]; 
-            
+        function startModule(id) {
+            currentModule = modules.find(m => m.id === id);
+            currentQuestionIndex = 0;
             document.getElementById('dashboard-screen').classList.add('hidden');
             document.getElementById('quiz-screen').classList.remove('hidden');
             loadQuestion();
         }
 
         function loadQuestion() {
-            if(quizQueue.length === 0) {
-                showSuccessScreen();
+            if(currentQuestionIndex >= currentModule.questions.length) {
+                finishModule();
                 return;
             }
             isAnswered = false;
-            const q = quizQueue[0];
+            const q = currentModule.questions[currentQuestionIndex];
+            
+            // UI Updates
             document.getElementById('question-text').innerText = q.q;
-            
-            const totalQ = currentLesson.questions.length;
-            const progress = ((totalQ - quizQueue.length) / totalQ) * 100;
+            document.getElementById('question-counter').innerText = `${currentQuestionIndex + 1} / ${currentModule.questions.length}`;
+            const progress = (currentQuestionIndex / currentModule.questions.length) * 100;
             document.getElementById('progress-bar').style.width = `${progress}%`;
-
-            const optsContainer = document.getElementById('options-container');
-            optsContainer.innerHTML = '';
             
-            q.options.forEach((opt, index) => {
-                optsContainer.innerHTML += `
-                    <button onclick="checkAnswer(${index}, this)" class="btn-duo w-full text-left p-5 border-2 border-gray-200 rounded-2xl text-xl font-bold text-gray-600 hover:bg-gray-50">
-                        ${opt}
-                    </button>
+            const badge = document.getElementById('question-type-badge');
+            const interactionBox = document.getElementById('interaction-container');
+            const actionBtn = document.getElementById('action-container');
+            interactionBox.innerHTML = '';
+
+            if(q.type === 'choice') {
+                badge.innerText = "Múltipla Escolha";
+                badge.className = "inline-block px-3 py-1 bg-indigo-100 text-indigo-700 text-xs font-bold uppercase tracking-wider rounded-md mb-4";
+                actionBtn.classList.add('hidden');
+                
+                q.options.forEach((opt, index) => {
+                    interactionBox.innerHTML += `
+                        <button onclick="checkChoiceAnswer(${index}, this)" class="w-full text-left p-4 border border-slate-200 rounded-lg text-lg font-medium text-slate-700 hover:bg-slate-50 hover:border-indigo-300 transition focus:outline-none">
+                            <span class="inline-block w-8 font-bold text-slate-400">${String.fromCharCode(65 + index)}.</span> ${opt}
+                        </button>
+                    `;
+                });
+            } else if (q.type === 'write') {
+                badge.innerText = "Escrita / Tradução";
+                badge.className = "inline-block px-3 py-1 bg-rose-100 text-rose-700 text-xs font-bold uppercase tracking-wider rounded-md mb-4";
+                actionBtn.classList.remove('hidden');
+                
+                interactionBox.innerHTML = `
+                    <textarea id="text-answer" rows="2" placeholder="Digite sua resposta aqui..." class="w-full p-4 text-lg text-slate-800 bg-slate-50 rounded-lg input-strict"></textarea>
                 `;
-            });
+                // Suporte para Enter
+                document.getElementById('text-answer').addEventListener('keypress', function (e) {
+                    if (e.key === 'Enter') { e.preventDefault(); checkTextAnswer(); }
+                });
+                setTimeout(() => document.getElementById('text-answer').focus(), 100);
+            }
         }
 
-        async function checkAnswer(selectedIndex, btnElement) {
+        // Limpa string (tira pontuação, espaços duplos e converte pra minúsculo)
+        function cleanString(str) {
+            return str.toLowerCase().replace(/[.,!?]/g, '').replace(/\s+/g, ' ').trim();
+        }
+
+        function checkTextAnswer() {
             if(isAnswered) return;
-            isAnswered = true;
+            const inputEl = document.getElementById('text-answer');
+            const userAnswer = cleanString(inputEl.value);
+            if(userAnswer === '') return;
             
-            const q = quizQueue[0];
+            const q = currentModule.questions[currentQuestionIndex];
+            const isCorrect = q.correct.some(ans => cleanString(ans) === userAnswer);
+            
+            showFeedback(isCorrect, q.feedback, q.correct[0]);
+        }
+
+        function checkChoiceAnswer(selectedIndex, btnElement) {
+            if(isAnswered) return;
+            const q = currentModule.questions[currentQuestionIndex];
+            
+            const buttons = document.getElementById('interaction-container').querySelectorAll('button');
+            buttons.forEach(b => b.disabled = true);
+            
+            const isCorrect = (selectedIndex === q.correct);
+            if(isCorrect) {
+                btnElement.classList.add('bg-emerald-50', 'border-emerald-500', 'text-emerald-700');
+            } else {
+                btnElement.classList.add('bg-rose-50', 'border-rose-500', 'text-rose-700');
+            }
+            
+            showFeedback(isCorrect, q.feedback, q.options[q.correct]);
+        }
+
+        async function showFeedback(isCorrect, explanation, correctAnswerText) {
+            isAnswered = true;
             const modal = document.getElementById('feedback-modal');
             const title = document.getElementById('feedback-title');
-            const text = document.getElementById('feedback-text');
-            const btn = document.getElementById('feedback-btn');
+            const expEl = document.getElementById('feedback-explanation');
+            const header = document.getElementById('feedback-header');
+            const correctBox = document.getElementById('correct-answer-box');
+            
+            expEl.innerText = explanation;
 
-            if (selectedIndex === q.correct) {
-                // Efeito Acerto
-                btnElement.classList.replace('border-gray-200', 'border-green-500');
-                btnElement.classList.replace('text-gray-600', 'text-green-600');
-                btnElement.classList.add('bg-green-100');
+            if(isCorrect) {
+                header.className = "p-6 border-b bg-emerald-500 text-white";
+                title.innerHTML = '<i class="fas fa-check-circle"></i> Resposta Correta';
+                correctBox.classList.add('hidden');
                 
-                modal.className = "fixed bottom-0 left-0 w-full p-6 rounded-t-3xl z-50 transition-all bg-green-100 border-t-4 border-green-500 shadow-2xl";
-                title.className = "font-extrabold text-2xl mb-2 flex items-center gap-2 text-green-700";
-                title.innerHTML = '<i class="fas fa-check-circle text-3xl"></i> Excelente!';
-                text.className = "text-lg mb-6 font-medium text-green-800";
-                text.innerText = "Isso aí! " + q.feedback;
-                btn.className = "btn-duo w-full font-bold py-4 rounded-2xl text-xl text-white tracking-wide uppercase bg-green-500";
-                btn.innerText = "Continuar";
-                
-                quizQueue.shift(); // Remove da fila
-                modal.classList.remove('hidden');
-                
+                userData.score += 10;
+                await db.collection('students_pro').doc(currentUser.uid).update({ score: userData.score });
             } else {
-                // Efeito Erro
-                btnElement.classList.replace('border-gray-200', 'border-red-500');
-                btnElement.classList.replace('text-gray-600', 'text-red-600');
-                btnElement.classList.add('bg-red-50');
-                document.getElementById('quiz-screen').classList.add('shake');
-                
-                modal.className = "fixed bottom-0 left-0 w-full p-6 rounded-t-3xl z-50 transition-all bg-red-100 border-t-4 border-red-500 shadow-2xl";
-                title.className = "font-extrabold text-2xl mb-2 flex items-center gap-2 text-red-700";
-                title.innerHTML = '<i class="fas fa-times-circle text-3xl"></i> Ops, atenção!';
-                text.className = "text-lg mb-6 font-medium text-red-800";
-                text.innerText = q.feedback; // Explicação exigida
-                btn.className = "btn-duo w-full font-bold py-4 rounded-2xl text-xl text-white tracking-wide uppercase bg-red-500";
-                btn.innerText = "Entendi";
-                
-                // Reduz vida
-                userData.hearts = Math.max(0, userData.hearts - 1);
-                await db.collection('students').doc(currentUser.uid).update({ hearts: userData.hearts });
-                
-                setTimeout(() => {
-                    document.getElementById('quiz-screen').classList.remove('shake');
-                    modal.classList.remove('hidden');
-                }, 400);
+                header.className = "p-6 border-b bg-rose-500 text-white";
+                title.innerHTML = '<i class="fas fa-times-circle"></i> Incorreto';
+                correctBox.classList.remove('hidden');
+                document.getElementById('correct-answer-text').innerText = correctAnswerText;
             }
+            
+            modal.classList.remove('hidden');
         }
 
         function nextQuestion() {
             document.getElementById('feedback-modal').classList.add('hidden');
-            if(document.getElementById('feedback-title').innerText.includes("atenção")) {
-                // Se errou, a pergunta vai pro final da fila
-                const failedQuestion = quizQueue.shift();
-                quizQueue.push(failedQuestion);
-            }
+            currentQuestionIndex++;
             loadQuestion();
         }
 
-        async function showSuccessScreen() {
-            document.getElementById('quiz-screen').classList.add('hidden');
-            document.getElementById('success-screen').classList.remove('hidden');
+        async function finishModule() {
+            userData.progress[currentModule.id] = true;
+            await db.collection('students_pro').doc(currentUser.uid).update({ progress: userData.progress });
             
-            // Adiciona XP e salva
-            userData.progress[currentLesson.id] = true;
-            userData.xp = (userData.xp || 0) + 25;
-            await db.collection('students').doc(currentUser.uid).update({ 
-                progress: userData.progress,
-                xp: userData.xp
-            });
-        }
-
-        function returnToDashboard() {
-            document.getElementById('success-screen').classList.add('hidden');
+            document.getElementById('quiz-screen').classList.add('hidden');
             document.getElementById('dashboard-screen').classList.remove('hidden');
             updateDashboard();
         }
@@ -460,7 +411,7 @@
             updateDashboard();
         }
 
-        // --- Chatbot Tutor José ---
+        // --- Mestre José (Chatbot com tratamento de erros forte) ---
         function toggleChat() {
             document.getElementById('chat-window').classList.toggle('hidden');
         }
@@ -471,17 +422,18 @@
             if(!msg) return;
             
             const chatBox = document.getElementById('chat-messages');
-            chatBox.innerHTML += `<div class="bg-gray-200 text-gray-800 p-3 rounded-2xl rounded-tr-none w-10/12 self-end ml-auto font-medium">${msg}</div>`;
+            chatBox.innerHTML += `<div class="bg-indigo-100 text-indigo-900 p-3 rounded-lg rounded-tr-none w-10/12 self-end ml-auto text-sm">${msg}</div>`;
             input.value = '';
             chatBox.scrollTop = chatBox.scrollHeight;
 
             if(GEMINI_API_KEY.includes("COLE_AQUI")) {
-                chatBox.innerHTML += `<div class="bg-red-100 text-red-800 p-3 rounded-2xl rounded-tl-none w-10/12">Falta a chave do Gemini no código!</div>`;
+                chatBox.innerHTML += `<div class="bg-rose-100 text-rose-800 border border-rose-200 p-3 rounded-lg rounded-tl-none w-10/12 text-sm font-bold"><i class="fas fa-exclamation-triangle"></i> ERRO: A chave do Gemini não foi inserida no código.</div>`;
+                chatBox.scrollTop = chatBox.scrollHeight;
                 return;
             }
 
             const typingId = "typing-" + Date.now();
-            chatBox.innerHTML += `<div id="${typingId}" class="bg-purple-100 text-purple-900 p-3 rounded-2xl rounded-tl-none w-10/12">Digitando...</div>`;
+            chatBox.innerHTML += `<div id="${typingId}" class="bg-white border border-slate-200 text-slate-500 p-3 rounded-lg rounded-tl-none w-10/12 text-sm flex items-center gap-2"><i class="fas fa-circle-notch fa-spin"></i> Processando...</div>`;
             chatBox.scrollTop = chatBox.scrollHeight;
 
             try {
@@ -489,17 +441,30 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        contents: [{ parts: [{ text: `Aja como José, um tutor de inglês. Responda curto e em português a dúvida: ${msg}` }] }]
+                        contents: [{ parts: [{ text: `Aja como o Mestre José, um tutor de inglês sério, focado e altamente didático de um curso de ponta. Responda de forma clara, curta e em português a dúvida gramatical do aluno: ${msg}` }] }]
                     })
                 });
+                
                 const data = await response.json();
                 document.getElementById(typingId).remove();
-                const aiResponse = data.candidates[0].content.parts[0].text;
-                chatBox.innerHTML += `<div class="bg-purple-100 text-purple-900 p-3 rounded-2xl rounded-tl-none w-10/12 font-medium">${aiResponse.replace(/\n/g, '<br>')}</div>`;
+                
+                // Tratamento específico caso a API do Google retorne um erro interno (ex: falta de faturamento)
+                if(data.error) {
+                    console.error("Erro da API Gemini:", data.error);
+                    chatBox.innerHTML += `<div class="bg-rose-100 text-rose-800 border border-rose-200 p-3 rounded-lg rounded-tl-none w-11/12 text-xs"><b>Erro na API do Google:</b><br>${data.error.message}</div>`;
+                } else if(data.candidates && data.candidates.length > 0) {
+                    const aiResponse = data.candidates[0].content.parts[0].text;
+                    chatBox.innerHTML += `<div class="bg-white border border-slate-200 text-slate-800 p-3 rounded-lg rounded-tl-none w-11/12 text-sm leading-relaxed">${aiResponse.replace(/\n/g, '<br>')}</div>`;
+                } else {
+                    throw new Error("Resposta inválida da API.");
+                }
+                
                 chatBox.scrollTop = chatBox.scrollHeight;
             } catch (error) {
-                document.getElementById(typingId).remove();
-                chatBox.innerHTML += `<div class="bg-red-100 text-red-800 p-3 rounded-2xl rounded-tl-none w-10/12">Erro de conexão.</div>`;
+                if(document.getElementById(typingId)) document.getElementById(typingId).remove();
+                console.error("Fetch Exception:", error);
+                chatBox.innerHTML += `<div class="bg-rose-100 text-rose-800 border border-rose-200 p-3 rounded-lg rounded-tl-none w-11/12 text-xs"><b>Falha de Conexão:</b> Ocorreu um erro de rede ou bloqueio (AdBlocker). Verifique o F12 (Console) para detalhes técnicos.</div>`;
+                chatBox.scrollTop = chatBox.scrollHeight;
             }
         }
     </script>
